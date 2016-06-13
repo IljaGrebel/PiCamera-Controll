@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Raspberry Pi | Web API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- Custom Theme files -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='font-awesome.css') }}">
+    <script src="static/js/jquery.min.js"> </script>
+    <script src="static/js/bootstrap.min.js"> </script>
+
+    <!-- Mainly scripts -->
+    <script src="static/js/jquery.metisMenu.js"></script>
+    <script src="static/js/jquery.slimscroll.min.js"></script>
+    <!-- Custom and plugin javascript -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
+    <script src="static/js/custom.js"></script>
+    <script src="static/js/screenfull.js"></script>
+    <script>
+        $(function () {
+            $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+
+            if (!screenfull.enabled) {
+                return false;
+            }
+
+
+
+            $('#toggle').click(function () {
+                screenfull.toggle($('#container')[0]);
+            });
+
+
+
+        });
+    </script>
+
+    <!----->
+
+</head>
+<body>
+<div id="wrapper">
+<!----->
+<nav class="navbar-default navbar-static-top" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <h1><a class="navbar-brand" href="index.html">RPi</a></h1>
+    </div>
+    <div class=" border-bottom">
+        <div class="full-left">
+            <section class="full-top">
+                <button id="toggle"><i class="fa fa-arrows-alt"></i></button>
+            </section>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Brand and toggle get grouped for better mobile display -->
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="drop-men">
+            <ul class=" nav_1">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class="name-caret">System<i
+                            class="caret"></i></span><img width="60" height="60"  src="static/images/Raspi-PGB001.png"></a>
+                    <ul class="dropdown-menu " role="menu">
+                        <li><a href="system.html"><i class="fa fa-user"></i>System Info</a></li>
+                        <!--
+                        <li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
+                        <li><a href="calendar.html"><i class="fa fa-calendar"></i>Calender</a></li>
+                        <li><a href="inbox.html"><i class="fa fa-clipboard"></i>Tasks</a></li>
+                        -->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+        <div class="clearfix">
+        </div>
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+
+                    <li>
+                        <a href="index.html" class=" hvr-bounce-to-right"><i
+                                class="fa fa-video-camera nav_icon "></i><span
+                                class="nav-label">Record</span> </a>
+                    </li>
+                    <li>
+                        <a href="preview.html" class=" hvr-bounce-to-right"><i
+                                class="fa fa-video-camera nav_icon "></i><span
+                                class="nav-label">Preview</span> </a>
+                    </li>
+                    <li>
+                        <a href="settings.html" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span
+                                class="nav-label">Settings</span> </a>
+                    </li>
+                    <li>
+                        <a href="faq.html" class=" hvr-bounce-to-right"><i class="fa fa-question-circle nav_icon"></i> <span
+                                class="nav-label">FAQ</span> </a>
+                    </li>
+                    <li>
+                        <a href="logout" class=" hvr-bounce-to-right"><i class="fa fa-sign-out nav_icon"></i><span class="nav-label">Logout</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+		 <div id="page-wrapper" class="gray-bg dashbard-1">
+       <div class="content-main">
+ 
+ 	<!--banner-->	
+		   <div class="banner">
+				<h2>
+				<a href="index.html">Home</a>
+				<i class="fa fa-angle-right"></i>
+				<span>Faqs</span>
+				</h2>
+		    </div>
+		<!--//banner-->
+ 	 <!--faq-->
+ 	<div class="asked">
+
+
+
+			<div class="questions">
+				<h5>1.What is Rapsberry Pi | Web API?</h5>
+	        	<p>Raspberry Pi | Web API gives you opportunity to record, stream, make screenshots, watch recorded videos and captured screenshots from Website, delete them or convert recorded .h264 videos to .mp4 using FFmpeg which must be compiled yourself.</p>
+	        </div>
+			 <div class="questions">
+				<h5>2.Supported Modules</h5>
+			    <p>At the moment this API supported standard camera module for <a href="https://www.raspberrypi.org/products/camera-module/">Raspberry Pi</a> and <a href="http://auvidea.eu/index.php/theme-styles/2014-12-30-22-32-06/b101">B101 HDMI to CSI-2 Bridge (15 pin FPC)</a> from Auvidea GmbH.</p>
+			 </div>	
+			  <div class="questions">
+				<h5>3.Recording</h5>
+				<p>Raspberry Pi recording videos in .h264 output format, you can open them with VLC Player. In order, you can convert them in .mp4 format using Web API. If you want to convert them in other format, please download converter and use it.</p>
+			 </div>	
+			  <div class="questions">
+				<h5>4.Streaming</h5>
+				<p>At the moment only udp-streaming thougth FFmpeg is avaible. We are working at the solution which will give you opportunity to stream in udp, rtp and rtsp without using FFmpeg. If you make some screenshots at streaming, they will not be saved in recording-%date% directory</p>
+			 </div>	
+			 
+			  <div class="questions">
+				<h5>5.Settings</h5>
+			    <p>At the moment you can only change settings like, encoder settings and date settings. We are working at the solution which will give you opportunity to change network settings, path where videos and screenshots will be saved, quality of recorded videos and screenshots and more.</p>
+			 </div>	
+			  <div class="questions">
+				<h5>6.Release?</h5>
+				<p>This is pre-beta release. Final release will come out soon.</p>
+			 </div>
+
+</div>
+	<!--//faq-->
+		<!---->
+<div class="copy">
+            <p> &copy; 2016 Raspberry Pi Web API. All Rights Reserved | Ilja Grebel</p></div>
+		</div>
+		</div>
+		<div class="clearfix"> </div>
+       </div>
+     
+<!---->
+<!--scrolling js-->
+	<script src="static/js/jquery.nicescroll.js"></script>
+	<script src="static/js/scripts.js"></script>
+	<!--//scrolling js-->
+</body>
+</html>
+

@@ -1,0 +1,174 @@
+Python-Raspberry-Contoll-Managment
+#######################################################
+
+Will be updated soon....
+
+
+{% extends "layout.html" %}
+{% block body %}
+{% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+<form action="{{ url_for('login') }}" method="post">
+    <div class="wrap">
+        <div class="rpi-logo">
+            <img src="static/images/Raspi-PGB001.png">
+        </div>
+        <input type="text" placeholder="username" name="username" required>
+        <div class="bar">
+            <i></i>
+        </div>
+        <input type="password" placeholder="password" name="password" required>
+        <button>Sign in</button>
+    </div>
+</form>
+{% endblock %}
+
+{% extends "layout.html" %}
+{% block body %} }
+{% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+
+
+
+{% extends "layout.html" %}
+{% block body %}
+    <div>INDEX.HTML</div>
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+
+    <form data-script="start_record" class="post">
+        <div class="btwrap">
+            <button type="button">Start Record</button>
+        </div>
+    </form>
+    <form data-script="stop_record" class="post">
+        <div class="btwrap">
+            <button type="button">Stop Record</button>
+        </div>
+    </form>
+    <form data-script="record_status" class="get">
+        <div class="btwrap">
+            <button type="button">record status</button>
+        </div>
+    </form>
+    <form data-script="start_preview" class="post">
+        <div class="btwrap">
+            <button type="button">Start Preview</button>
+        </div>
+    </form>
+    <form data-script="stop_preview" class="post">
+        <div class="btwrap">
+            <button type="button">Stop Preview</button>
+        </div>
+    </form>
+    <form data-script="screenshot" class="post">
+        <div class="btwrap">
+            <button type="button">Screenshot</button>
+        </div>
+    </form>
+    <form data-script="system" class="get">
+        <h2>system info</h2>
+        <input type="text" id="_model" name="_model" placeholder="_model">
+        <input type="text" id="_hostname" name="_hostname" placeholder="_hostname">
+        <input type="text" id="_firmware" name="_firmware" placeholder="_firmware">
+        <input type="text" id="_version" name="_version" placeholder="_version">
+        <input type="text" id="_hardware" name="_hardware" placeholder="_hardware">
+        <input type="text" id="_linux" name="_linux" placeholder="_linux">
+        <input type="text" id="_systemUptime" name="_systemUptime" placeholder="_systemUptime">
+        <input type="text" id="_uptime" name="_uptime" placeholder="_uptime">
+    </form>
+
+
+    <h2>set date and time</h2>
+    <form data-script="date" class="post">
+        <div>day month and year</div>
+        <input max="31" type="number" id="_day" name="_day" placeholder="_day">
+        <select name="_month">
+            <option id="_Jan" name="_month" value="Jan">Jan</option>
+            <option id="_Feb" name="_month" value="Feb">Feb</option>
+            <option id="_Mar" name="_month" value="Mar">Mar</option>
+            <option id="_Apr" name="_month" value="Apr">Apr</option>
+            <option id="_May" name="_month" value="May">May</option>
+            <option id="_Jun" name="_month" value="Jun">June</option>
+            <option id="_Jul" name="_month" value="Jul">July</option>
+            <option id="_Aug" name="_month" value="Aug">Aug</option>
+            <option id="_Sept" name="_month" value="Sept">Sept</option>
+            <option id="_Oct" name="_month" value="Oct">Oct</option>
+            <option id="_Nov" name="_month" value="Nov">Nov</option>
+            <option id="_Dec" name="_month" value="Dec">Dec</option>
+        </select>
+        <input max="2080" type="number" id="_year" name="_year" placeholder="_year">
+        <div>hour minute and second</div>
+        <input max="23" type="number" id="_hour" name="_hour" placeholder="_hour">
+        <input max="59" type="number" id="_minute" name="_minute" placeholder="_minute">
+        <input max="59" type="number" id="_second" name="_second" placeholder="_second">
+
+        <button type="button">Edit date and time</button>
+    </form>
+
+
+    <form data-script="enc_config" class="post">
+        <h2>_width & _height</h2>
+        <input max="1920" type="number" id="_width" name="_width" placeholder="_width">
+        <input max="1080" type="number" id="_heigth" name="_heigth" placeholder="_heigth">
+        <div>video format</div>
+
+        <select name="_video_fmt">
+            <option id="_video_fmt_1" name="_video_fmt" value=".h264">.h264</option>
+            <option id="_video_fmt_2" name="_video_fmt" value=".mjpeg">.mjpeg</option>
+        </select>
+        <div>image format</div>
+        <select name="_image_fmt">
+            <option id="_image_fmt_1" name="_image_fmt" value=".jpeg">.jpeg</option>
+            <option id="_image_fmt_2" name="_image_fmt" value=".png">.png</option>
+            <option id="_image_fmt_3" name="_image_fmt" value=".gif">.gif</option>
+            <option id="_image_fmt_4" name="_image_fmt" value=".bmp">.bmp</option>
+            <option id="_image_fmt_5" name="_image_fmt" value=".yuv">.yuv</option>
+            <option id="_image_fmt_6" name="_image_fmt" value=".rgb">.rgb</option>
+            <option id="_image_fmt_7" name="_image_fmt" value=".rgba">.rgba</option>
+            <option id="_image_fmt_8" name="_image_fmt" value=".bgr">.bgr</option>
+            <option id="_image_fmt_9" name="_image_fmt" value=".bgra">.bgra</option>
+        </select>
+        <div>camera effect</div>
+        <select name="_camera_effect">
+            <option id="_camera_effect_1" name="_camera_effect" value="none">none</option>
+            <option id="_camera_effect_2" name="_camera_effect" value="negative">negative</option>
+            <option id="_camera_effect_3" name="_camera_effect" value="solarize">solarize</option>
+            <option id="_camera_effect_4" name="_camera_effect" value="sketch">sketch</option>
+            <option id="_camera_effect_5" name="_camera_effect" value="denoise">denoise</option>
+            <option id="_camera_effect_6" name="_camera_effect" value="emboss">emboss</option>
+            <option id="_camera_effect_7" name="_camera_effect" value="oilpaint">oilpaint</option>
+            <option id="_camera_effect_8" name="_camera_effect" value="hatch">hatch</option>
+            <option id="_camera_effect_9" name="_camera_effect" value="gpen">gpen</option>
+            <option id="_camera_effect_10" name="_camera_effect" value="pastel">pastel</option>
+            <option id="_camera_effect_11" name="_camera_effect" value="watercolor">watercolor</option>
+            <option id="_camera_effect_12" name="_camera_effect" value="film">film</option>
+            <option id="_camera_effect_13" name="_camera_effect" value="blur">blur</option>
+            <option id="_camera_effect_14" name="_camera_effect" value="saturation">saturation</option>
+            <option id="_camera_effect_15" name="_camera_effect" value="colorswap">colorswap</option>
+            <option id="_camera_effect_16" name="_camera_effect" value="washedout">washedout</option>
+            <option id="_camera_effect_17" name="_camera_effect" value="posterise">posterise</option>
+            <option id="_camera_effect_18" name="_camera_effect" value="colorpoint">colorpoint</option>
+            <option id="_camera_effect_19" name="_camera_effect" value="colorbalance">colorbalance</option>
+            <option id="_camera_effect_20" name="_camera_effect" value="cartoon">cartoon</option>
+            <option id="_camera_effect_21" name="_camera_effect" value="deinterlace1">deinterlace1</option>
+            <option id="_camera_effect_22" name="_camera_effect" value="deinterlace2">deinterlace2</option>
+        </select>
+
+        <div>record file name</div>
+            <input type="text" id="_record_file" name="_record_file" placeholder="_record_file"/>
+        <div>image file name</div>
+            <input type="text" id="_img_file" name="_img_file" placeholder="_img_file">
+
+        <button type="button">Edit encoder config</button>
+
+
+    </form>
+    <div class="test_form_response">
+            <div style="width: 450px; border: 1px solid #555; padding: 5px; ">
+                <div class="request-url-field"
+                     style="margin-top: 10px; width: 100%; padding-left: 10px; min-height: 18px; "></div>
+                <div class="post-field" style="width: 100%; padding-left: 10px; margin-bottom: 10px; "></div>
+            </div>
+            <h3><br/>Response</h3>
+            <pre class="response-field" style="width: 450px; border: 1px solid #555; padding: 5px; overflow: auto; min-height: 274px; "></pre>
+    </div>
+{% endblock %}

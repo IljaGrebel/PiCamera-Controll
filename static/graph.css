@@ -1,0 +1,100 @@
+/* #######################################################
+
+HOW TO CREATE AN INTERACTIVE GRAPH USING CSS3 & JQUERY [TUTORIAL]
+
+"How to create an Interactive Graph using CSS3 & jQuery [Tutorial]" was specially made for DesignModo by our friend Valeriu Timbuc.
+
+Links:
+http://vtimbuc.net
+http://designmodo.com
+http://vladimirkudinov.com
+
+######################################################## */
+
+/* Resets */
+.graph-container,
+.graph-container div,
+.graph-container a,
+.graph-container span {
+    margin: 0;
+    padding: 0;
+}
+
+/* Gradinet and Rounded Corners */
+.graph-container, #tooltip, .graph-info a {
+
+}
+
+/*  Graph Container */
+.graph-container {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+
+}
+
+.graph-container > div {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    top: 0px;
+    left: 2px;
+}
+
+
+/* Text Styles */
+#tooltip, .graph-info a {
+    height: 25px;
+    font-size: 12px;
+    line-height: 13px;
+    color: #999;
+}
+
+.tickLabel {
+    font-size: 1.2em;
+    color: #999;
+
+}
+
+/* Tooltip */
+#tooltip {
+    position: absolute;
+    display: none;
+    padding: 5px 10px;
+    border: 1px solid #999;
+}
+
+/* Links */
+.graph-info a {
+    position: relative;
+    display: inline-block;
+    float: left;
+    padding: 7px 10px 5px 30px;
+    margin-right: 10px;
+    text-decoration: none;
+    cursor: default;
+}
+
+/*--media Quries for 1024px-laptops-*/
+@media (max-width: 1024px) {
+    .graph-container {
+        height: 499px;
+    }
+}
+
+/*--media Quries for 768px-laptops-*/
+@media (max-width: 768px) {
+    .graph-container {
+        height: 430px;
+        margin: 1em;
+        width: 94%;
+    }
+}
+
+@media (max-width: 320px) {
+    .graph-container {
+        height: 370px;
+        margin: 1em;
+        width: 94%;
+    }
+}

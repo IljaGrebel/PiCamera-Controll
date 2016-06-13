@@ -1,0 +1,344 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Raspberry Pi | Web API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- Custom Theme files -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='font-awesome.css') }}">
+    <script src="static/js/jquery.min.js"> </script>
+    <script src="static/js/bootstrap.min.js"> </script>
+
+    <!-- Mainly scripts -->
+    <script src="static/js/jquery.metisMenu.js"></script>
+    <script src="static/js/jquery.slimscroll.min.js"></script>
+    <!-- Custom and plugin javascript -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
+    <script src="static/js/custom.js"></script>
+    <script src="static/js/screenfull.js"></script>
+    <script>
+        $(function () {
+            $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+
+            if (!screenfull.enabled) {
+                return false;
+            }
+
+
+
+            $('#toggle').click(function () {
+                screenfull.toggle($('#container')[0]);
+            });
+
+
+
+        });
+    </script>
+
+    <!----->
+
+</head>
+<body>
+<div id="wrapper">
+<!----->
+<nav class="navbar-default navbar-static-top" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <h1><a class="navbar-brand" href="index.html">RPi</a></h1>
+    </div>
+    <div class=" border-bottom">
+        <div class="full-left">
+            <section class="full-top">
+                <button id="toggle"><i class="fa fa-arrows-alt"></i></button>
+            </section>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Brand and toggle get grouped for better mobile display -->
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="drop-men">
+            <ul class=" nav_1">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class="name-caret">System<i
+                            class="caret"></i></span><img width="60" height="60"  src="static/images/Raspi-PGB001.png"></a>
+                    <ul class="dropdown-menu " role="menu">
+                        <li><a href="system.html"><i class="fa fa-user"></i>System Info</a></li>
+                        <!--
+                        <li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
+                        <li><a href="calendar.html"><i class="fa fa-calendar"></i>Calender</a></li>
+                        <li><a href="inbox.html"><i class="fa fa-clipboard"></i>Tasks</a></li>
+                        -->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+        <div class="clearfix">
+        </div>
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+
+                    <li>
+                        <a href="index.html" class=" hvr-bounce-to-right"><i
+                                class="fa fa-video-camera nav_icon "></i><span
+                                class="nav-label">Record</span> </a>
+                    </li>
+                    <li>
+                        <a href="preview.html" class=" hvr-bounce-to-right"><i
+                                class="fa fa-video-camera nav_icon "></i><span
+                                class="nav-label">Preview</span> </a>
+                    </li>
+                    <li>
+                        <a href="settings.html" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span
+                                class="nav-label">Settings</span> </a>
+                    </li>
+                    <li>
+                        <a href="faq.html" class=" hvr-bounce-to-right"><i class="fa fa-question-circle nav_icon"></i> <span
+                                class="nav-label">FAQ</span> </a>
+                    </li>
+                    <li>
+                        <a href="logout" class=" hvr-bounce-to-right"><i class="fa fa-sign-out nav_icon"></i><span class="nav-label">Logout</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="page-wrapper" class="gray-bg dashbard-1">
+<div class="content-main">
+
+<!--banner-->
+<div class="banner">
+    <h2>
+        <a href="index.html">Home</a>
+        <i class="fa fa-angle-right"></i>
+        <span>Settings</span>
+    </h2>
+</div>
+<!--//banner-->
+<!--grid-->
+<div class="grid-form">
+<div class="grid-form1">
+<h3>Encoder Settings</h3>
+<div class="tab-content">
+    <div class="tab-pane active" id="horizontal-form">
+        <form data-script="enc_config" style="border: none; border-shadow: none;" class="post form-horizontal">
+            <div class="form-group">
+                <label for="_width" class="col-sm-2 control-label">Width</label>
+                <div class="col-sm-8">
+                    <input max="1920" type="number" class="form-control1" id="_width" name="_width" placeholder="1920">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="_heigth" class="col-sm-2 control-label">Heigth</label>
+                <div class="col-sm-8">
+                    <input max="1080" type="number" class="form-control1" id="_heigth" name="_heigth" placeholder="1080">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="selector1" class="col-sm-2 control-label">Video Format</label>
+                <div class="col-sm-8">
+                    <select name="_video_fmt" id="selector1" class="form-control1">
+                        <option id="_video_fmt_1" name="_video_fmt" value=".h264">.h264</option>
+                        <option id="_video_fmt_2" name="_video_fmt" value=".mjpeg">.mjpeg</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="selector2" class="col-sm-2 control-label">Image Format</label>
+                <div class="col-sm-8">
+                    <select name="_image_fmt" id="selector2" class="form-control1">
+                        <option id="_image_fmt_1" name="_image_fmt" value=".jpeg">.jpeg</option>
+                        <option id="_image_fmt_2" name="_image_fmt" value=".png">.png</option>
+                        <option id="_image_fmt_3" name="_image_fmt" value=".gif">.gif</option>
+                        <option id="_image_fmt_4" name="_image_fmt" value=".bmp">.bmp</option>
+                        <option id="_image_fmt_5" name="_image_fmt" value=".yuv">.yuv</option>
+                        <option id="_image_fmt_6" name="_image_fmt" value=".rgb">.rgb</option>
+                        <option id="_image_fmt_7" name="_image_fmt" value=".rgba">.rgba</option>
+                        <option id="_image_fmt_8" name="_image_fmt" value=".bgr">.bgr</option>
+                        <option id="_image_fmt_9" name="_image_fmt" value=".bgra">.bgra</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="selector3" class="col-sm-2 control-label">Camera Effect</label>
+                <div class="col-sm-8">
+                    <select name="_camera_effect" id="selector3" class="form-control1">
+                        <option id="_camera_effect_1" name="_camera_effect" value="none">none</option>
+                        <option id="_camera_effect_2" name="_camera_effect" value="negative">negative</option>
+                        <option id="_camera_effect_3" name="_camera_effect" value="solarize">solarize</option>
+                        <option id="_camera_effect_4" name="_camera_effect" value="sketch">sketch</option>
+                        <option id="_camera_effect_5" name="_camera_effect" value="denoise">denoise</option>
+                        <option id="_camera_effect_6" name="_camera_effect" value="emboss">emboss</option>
+                        <option id="_camera_effect_7" name="_camera_effect" value="oilpaint">oilpaint</option>
+                        <option id="_camera_effect_8" name="_camera_effect" value="hatch">hatch</option>
+                        <option id="_camera_effect_9" name="_camera_effect" value="gpen">gpen</option>
+                        <option id="_camera_effect_10" name="_camera_effect" value="pastel">pastel</option>
+                        <option id="_camera_effect_11" name="_camera_effect" value="watercolor">watercolor</option>
+                        <option id="_camera_effect_12" name="_camera_effect" value="film">film</option>
+                        <option id="_camera_effect_13" name="_camera_effect" value="blur">blur</option>
+                        <option id="_camera_effect_14" name="_camera_effect" value="saturation">saturation</option>
+                        <option id="_camera_effect_15" name="_camera_effect" value="colorswap">colorswap</option>
+                        <option id="_camera_effect_16" name="_camera_effect" value="washedout">washedout</option>
+                        <option id="_camera_effect_17" name="_camera_effect" value="posterise">posterise</option>
+                        <option id="_camera_effect_18" name="_camera_effect" value="colorpoint">colorpoint</option>
+                        <option id="_camera_effect_19" name="_camera_effect" value="colorbalance">colorbalance</option>
+                        <option id="_camera_effect_20" name="_camera_effect" value="cartoon">cartoon</option>
+                        <option id="_camera_effect_21" name="_camera_effect" value="deinterlace1">deinterlace1</option>
+                        <option id="_camera_effect_22" name="_camera_effect" value="deinterlace2">deinterlace2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="_record_file" class="col-sm-2 control-label">Record Filename</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control1" id="_record_file" name="_record_file" placeholder="video">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="_img_file" class="col-sm-2 control-label">Image Filename</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control1" id="_img_file" name="_img_file" placeholder="image">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="_annotate_text" class="col-sm-2 control-label">Annotate Text</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control1" id="_annotate_text" name="_annotate_text" placeholder="Text">
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <button class="btn-primary btn">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+<!--//grid-->
+<!---->
+<div class="grid-form">
+    <div class="grid-form1">
+        <h3>Date</h3>
+        <div class="tab-content">
+            <div class="tab-pane active" id="horizontal-form-2">
+                <form data-script="date" style="border: none; border-shadow: none;" class="post form-horizontal">
+                    <div class="form-group">
+                        <label for="_width" class="col-sm-2 control-label">Day</label>
+                        <div class="col-sm-8">
+                            <input max="31" type="number" class="form-control1" id="_day" name="_day" placeholder="Day">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="selector4" class="col-sm-2 control-label">Month</label>
+                        <div class="col-sm-8">
+                            <select name="_month" id="selector4" class="form-control1">
+                                <option id="_Jan" name="_month" value="Jan">January</option>
+                                <option id="_Feb" name="_month" value="Feb">February</option>
+                                <option id="_Mar" name="_month" value="Mar">March</option>
+                                <option id="_Apr" name="_month" value="Apr">April</option>
+                                <option id="_May" name="_month" value="May">May</option>
+                                <option id="_Jun" name="_month" value="Jun">June</option>
+                                <option id="_Jul" name="_month" value="Jul">July</option>
+                                <option id="_Aug" name="_month" value="Aug">August</option>
+                                <option id="_Sept" name="_month" value="Sept">September</option>
+                                <option id="_Oct" name="_month" value="Oct">October</option>
+                                <option id="_Nov" name="_month" value="Nov">November</option>
+                                <option id="_Dec" name="_month" value="Dec">December</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="_year" class="col-sm-2 control-label">Year</label>
+                        <div class="col-sm-8">
+                            <input max="2080" type="number" class="form-control1" id="_year" name="_year" placeholder="year">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="_img_file" class="col-sm-2 control-label">Hour</label>
+                        <div class="col-sm-8">
+                            <input max="23" type="number" class="form-control1" id="_hour" name="_hour" placeholder="hour">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="_img_file" class="col-sm-2 control-label">Minute</label>
+                        <div class="col-sm-8">
+                            <input max="59" type="number" class="form-control1" id="_minute" name="_minute" placeholder="minute">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="_img_file" class="col-sm-2 control-label">Second</label>
+                        <div class="col-sm-8">
+                            <input max="59" type="number" class="form-control1" id="_second" name="_second" placeholder="second">
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-2">
+                                <button class="btn-primary btn">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid-form1">
+<h3>Network Settings</h3>
+<div class="tab-content">
+    <div class="tab-pane active" id="horizontal-form">
+        <form data-script="change_test" style="border: none; border-shadow: none;" class="post form-horizontal">
+            <div class="form-group">
+                <label for="_record_file" class="col-sm-2 control-label">IP Address</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control1" id="_ip_address_" name="_ip_address_" placeholder="192.168.0.198">
+                </div>
+            </div>
+            <!--
+            <div class="form-group">
+                <label for="_img_file" class="col-sm-2 control-label">Image Filename</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control1" id="_img_file" name="_img_file" placeholder="image">
+                </div>
+            </div> -->
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <button class="btn-primary btn">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<div class="copy">
+    <p> &copy; 2016 Raspberry Pi Web API. All Rights Reserved | Ilja Grebel</p></div>
+</div>
+</div>
+<div class="clearfix"> </div>
+</div>
+<!--scrolling js-->
+<script src="static/js/jquery.nicescroll.js"></script>
+<script src="static/js/scripts.js"></script>
+<script src="static/js/settings_scripts.js"></script>
+<!--//scrolling js-->
+<!---->
+
+</body>
+</html>
+

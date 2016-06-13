@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Raspberry Pi | Web API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- Custom Theme files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='font-awesome.css') }}">
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="login">
+    <h1><a>Raspberry Pi</a></h1>
+
+    <div class="login-bottom">
+        <h2>Login</h2>
+        <form action="{{ url_for('login') }}" method="post">
+            <div class="col-md-6">
+                <div class="login-mail">
+                    <input type="text" placeholder="Username" required name="username">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="login-mail">
+                    <input type="password" placeholder="Password" required name="password">
+                    <i class="fa fa-lock"></i>
+                </div>
+            </div>
+            <div class="col-md-6 login-do">
+                <label class="hvr-shutter-in-horizontal login-sub">
+                    <input type="submit" value="login">
+                </label>
+            </div>
+        </form>
+        <div>
+            <blockquote class="col-quote-1">Pre-install | username: pi and password: raspberry</blockquote>
+        </div>
+    </div>
+</div>
+<!---->
+<div class="copy-right"><p> &copy; 2016 Raspberry Pi Web API. All Rights Reserved | Ilja Grebel</p></div>
+<!---->
+<!--scrolling js-->
+<script src="static/js/jquery.nicescroll.js"></script>
+<script src="static/js/scripts.js"></script>
+<!--//scrolling js-->
+</body>
+</html>
+
