@@ -824,7 +824,7 @@ def get_images():
 
 @app.route('/update', methods=['POST'])
 def update():
-    os.system('git merge')
+    os.system('git pull')
     logging.info('Updating')
     return 0
 
