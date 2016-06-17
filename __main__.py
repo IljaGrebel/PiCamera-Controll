@@ -38,6 +38,7 @@
     v1.02 - Added more system information
     v1.03 - Added logging information, no print messages in console anymore
     v1.04 - Added Frame status while recording
+    v.05 - Updating from GitHub
     '''
 
 # All print messages are only for debuggin/manual starting from console
@@ -60,7 +61,6 @@ import RPi.GPIO as GPIO
 import psutil
 #import iptools
 import logging
-import config
 import serial
 import spidev
 
@@ -76,8 +76,8 @@ camlock = Lock()  # Needed to block access from multi responses
 config = ConfigParser.RawConfigParser()
 config.read('config.ini')
 uptime = time.time()
-firmware = 'v1.04'
-version = 4
+firmware = 'v1.05'
+version = 5
 website = 'v1.02'
 PIN_Number = ''
 myrevision = ''
@@ -204,6 +204,7 @@ def network():
         logging.error("Not logged in")
         return render_template('login.html')
 
+#TODO - fix
 @app.route('/change_ip', methods=['POST'])
 def change_ip():
     if 'username' in session:
@@ -345,7 +346,6 @@ def rpib101():
     d['status'] = 200
     d['comment'] = 'B101 (38126-2) has been restarted'
     return flask_json.dumps(d, sort_keys=False, indent=True)
-
 
 # GET system info
 @app.route('/system', methods=['GET'])
@@ -492,6 +492,9 @@ def path():
             else:
 
                 d = collections.OrderedDict()
+                d['status'] = 200
+                d['path'] = current_path
+                d['comment'] = 'savin on USB'
                 return 0
             d = collections.OrderedDict()
             d['status'] = 200
@@ -795,6 +798,8 @@ def screenshot():
 @app.route('/get_video', methods=['GET'])
 def get_video():
     if 'username' in session:
+        os.system('ls rec*/*.h264')
+        os.system('ls rec*/*.mjpeg')
         return 0
     else:
         return 0
@@ -803,21 +808,66 @@ def get_video():
 @app.route('/get_images', methods=['GET'])
 def get_images():
     if 'username' in session:
+        os.system('ls rec*/images/*.jpeg')
+        os.system('ls rec*/images/*.png')
+        os.system('ls rec*/images/*.gif')
+        os.system('ls rec*/images/*.bmp')
+        os.system('ls rec*/images/*.yuv')
+        os.system('ls rec*/images/*.rgb')
+        os.system('ls rec*/images/*.rgba')
+        os.system('ls rec*/images/*.bgr')
+        os.system('ls rec*/images/*.bgra')
         return 0
     else:
+        logging.error('Not logged in')
         return 0
 
-'''
-#SPI
-@app.route('/spi_b1', methods=['GET', 'POST'])
+@app.route('/update', methods=['POST'])
+def update():
+    os.system('git merge')
+    logging.info('Updating')
+    return 0
+
+#SPI - Bank1
+@app.route('/spi_b1', methods=['POST'])
 def spi_b1():
-    spi.spidev.SpiDev()
+    spi = spidev.SpiDev()
     spi.open(0,1)
-    to_send = []
-    spi.xfer(to_send)
-    print 'send %s' % to_send
-    return 'sned %s' % to_send
-'''
+    spi.xfer2([0x80, 0x01])
+    spi.xfer2('adderss')
+    return 0
+
+#SPI - Bank2
+@app.route('/spi_b2', methods=['POST'])
+def spi_b2():
+    spi = spidev.SpiDev()
+    spi.open(0,1)
+    to_send = [[0x80, 0x02]]
+    spi.xfer2(to_send)
+    #spi.xfer('address')
+    return 0
+
+#SPI - Bank3
+@app.route('/spi_b3', methods=['POST'])
+def spi_b3():
+    spi = spidev.SpiDev()
+    spi.open(0,1)
+    spi.xfer2([0x80, 0x03])
+    spi.xfer2([0x90, 0x15])
+    print_message = ('0x80, 0x03 and 0x90, 0x15')
+    print 'send %s' % print_message
+    return 'send %s' % print_message
+
+@app.route('/spi_test', methods=['POST'])
+def spi_test():
+    spi = spidev.SpiDev()
+    spi.open(0,0)
+    while True:
+        spi.xfer([0,0,0])      # turn all LEDs off
+        time.sleep(1)
+        spi.xfer([1,255,255])  # turn all LEDs on
+        time.sleep(1)
+    return 0
 
 #UART - Steuerung
 '''
@@ -911,6 +961,13 @@ def faq():
 def previewhtml():
     if 'username' in session:
         return render_template('preview.html')
+    logging.error('Not logged in')
+    return render_template('login.html')
+
+@app.route('/spi_test')
+def spi_test():
+    if 'username' in session:
+        return render_template('spi_test.html')
     logging.error('Not logged in')
     return render_template('login.html')
 
