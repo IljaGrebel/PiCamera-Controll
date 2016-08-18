@@ -66,6 +66,11 @@
                             class="caret"></i></span><img width="60" height="60"  src="static/images/Raspi-PGB001.png"></a>
                     <ul class="dropdown-menu " role="menu">
                         <li><a href="system.html"><i class="fa fa-user"></i>System Info</a></li>
+                        <!--
+                        <li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
+                        <li><a href="calendar.html"><i class="fa fa-calendar"></i>Calender</a></li>
+                        <li><a href="inbox.html"><i class="fa fa-clipboard"></i>Tasks</a></li>
+                        -->
                     </ul>
                 </li>
             </ul>
@@ -115,7 +120,7 @@
     <h2>
         <a href="index.html">Home</a>
         <i class="fa fa-angle-right"></i>
-        <span>Preview</span>
+        <span>Upload</span>
     </h2>
 </div>
 <!--//banner-->
@@ -124,13 +129,14 @@
     <div class="col-md-4 ">
         <div class="content-top-1">
             <div class="col-md-6 top-content">
-                <h5>Start Preview</h5>
-            </div>
+                <h5>Upload BMP</h5>
+            </div><br>
             <div class="col-md-6 top-content1">
                 <div>
-                    <form style="border: none; box-shadow: none;" data-script="start_preview" class="post">
+                    <form action="upload" method=post enctype=multipart/form-data>
+                        <p><input type=file name=file>
                         <div>
-                            <button style="margin-top: 15px" id="start_preview" type="button" class="btn btn-lg btn-default">Start Preview</button>
+                            <input style="margin-top: 15px" class="btn btn-lg btn-default" type=submit value=Upload>
                         </div>
                     </form>
                 </div>
@@ -139,40 +145,59 @@
         </div>
         <div class="content-top-1">
             <div class="col-md-6 top-content">
-                <h5>Stop Preview</h5>
+                <h5>SPI</h5>
             </div>
             <div class="col-md-6 top-content1">
-                <form style="border: none; box-shadow: none" data-script="stop_preview" class="post">
-                    <div>
-                        <button style="margin-top: 15px" id="stop_preview" type="button" class="btn btn-lg btn-default">Stop Preview</button>
-                    </div>
-                </form>
+                <div>
+                    <form style="border: none; box-shadow: none;" data-script="image_list" class="get">
+                        <div>
+                            <button style="margin-top: 15px" id="image_list" type="button" class="btn btn-lg btn-default">List Image</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+            <br>
+                <form data-script="spi_send" style="border: none; border-shadow: none;" class="post form-horizontal">
+                <div class="form-group">
+                    <label for="_filename" class="col-sm-2 control-label">Filename</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_filename" name="_filename" placeholder="Filename" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_osd_heigth" class="col-sm-2 control-label">Heigth</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_heigth" name="_osd_heigth" placeholder="1920" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_osd_width" class="col-sm-2 control-label">Width</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_heigth" name="_osd_width" placeholder="1080" type="number" required>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn-primary btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
             <div class="clearfix"> </div>
         </div>
         <div class="content-top-1">
             <div class="col-md-6 top-content">
-                <h5>Status</h5>
+                <h5>TTY</h5>
             </div>
             <div class="col-md-6 top-content1">
-                <form style="border: none; box-shadow: none" data-script="status" class="get">
-                    <div>
-                        <button style="margin-top: 15px" type="button" class="btn btn-lg btn-default">Status</button>
-                    </div>
-                </form>
-            </div>
-            <div class="clearfix"> </div>
-        </div>
-        <div class="content-top-1">
-            <div class="col-md-6 top-content">
-                <h5>Make Screenshot</h5>
-            </div>
-            <div class="col-md-6 top-content1">
-                <form style="border: none; box-shadow: none" data-script="screenshot" class="post">
-                    <div>
-                        <button style="margin-top: 15px" type="button" class="btn btn-lg btn-default">Screenshot</button>
-                    </div>
-                </form>
+                <div>
+                    <form style="border: none; box-shadow: none;" data-script="activate_tty" class="post">
+                        <div>
+                            <button style="margin-top: 15px" id="activate_tty" type="button" class="btn btn-lg btn-default">activate tty</button>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="clearfix"> </div>
         </div>
@@ -188,6 +213,7 @@
                     <h5>JSON</h5>
                 </div>
             </div>
+
         <div class="col-md-6 top-content">
             <h5>Response</h5>
             <pre class="response-field" style="border: 1px solid #555; padding: 5px; overflow: auto; min-height: 274px; "></pre>
@@ -207,6 +233,6 @@
 <script src="static/js/scripts.js"></script>
 <!--//scrolling js-->
 <script src="static/js/bootstrap.min.js"></script>
-<script src="static/js/index_scripts.js"></script>
+<script src="static/js/upload_script.js"></script>
 </body>
 </html>

@@ -66,11 +66,6 @@
                             class="caret"></i></span><img width="60" height="60"  src="static/images/Raspi-PGB001.png"></a>
                     <ul class="dropdown-menu " role="menu">
                         <li><a href="system.html"><i class="fa fa-user"></i>System Info</a></li>
-                        <!--
-                        <li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
-                        <li><a href="calendar.html"><i class="fa fa-calendar"></i>Calender</a></li>
-                        <li><a href="inbox.html"><i class="fa fa-clipboard"></i>Tasks</a></li>
-                        -->
                     </ul>
                 </li>
             </ul>
@@ -95,6 +90,10 @@
                     <li>
                         <a href="settings.html" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span
                                 class="nav-label">Settings</span> </a>
+                    </li>
+                    <li>
+                        <a href="upload.html" class="hvr-bounce-to-right"><i class="fa fa-upload nav_icon"></i> <span
+                                class="nav-label">Upload</span> </a>
                     </li>
                     <li>
                         <a href="faq.html" class=" hvr-bounce-to-right"><i class="fa fa-question-circle nav_icon"></i> <span
@@ -196,217 +195,6 @@
     </div>
     <div class="clearfix"> </div>
 </div>
-<!---->
-
-<!--
-<div class="content-mid">
-
-
-    <div class="col-md-7 mid-content-top">
-        <div class="middle-content">
-            <h3>Latest Recordings</h3>
-            <!-- start content_slider -->
-        <!--
-            <div id="owl-demo" class="owl-carousel text-center">
-                <div class="item">
-                    <img class="lazyOwl img-responsive" data-src="images/na.jpg" alt="name">
-                </div>
-                <div class="item">
-                    <img class="lazyOwl img-responsive" data-src="images/na1.jpg" alt="name">
-                </div>
-                <div class="item">
-                    <img class="lazyOwl img-responsive" data-src="images/na2.jpg" alt="name">
-                </div>
-                <div class="item">
-                    <img class="lazyOwl img-responsive" data-src="images/na.jpg" alt="name">
-                </div>
-                <div class="item">
-                    <img class="lazyOwl img-responsive" data-src="images/na1.jpg" alt="name">
-                </div>
-                <div class="item">
-                    <img class="lazyOwl img-responsive" data-src="images/na2.jpg" alt="name">
-                </div>
-                <div class="item">
-                    <img class="lazyOwl img-responsive" data-src="images/na.jpg" alt="name">
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-</div>
-<!----->
-    <!--
-<div class="content-bottom">
-<div class="col-md-6">
-    <div class="weather">
-        <div class="weather-top">
-            <div class="weather-top-left">
-                <div class="degree">
-                    <figure class="icons">
-                        <canvas id="partly-cloudy-day" width="64" height="64">
-                        </canvas>
-                    </figure>
-                    <span>37°</span>
-
-                    <div class="clearfix"></div>
-                </div>
-                <script>
-                    var icons = new Skycons({"color": "#1ABC9C"}),
-                            list = [
-                                "clear-night", "partly-cloudy-day",
-                                "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                                "fog"
-                            ],
-                            i;
-
-                    for (i = list.length; i--;)
-                        icons.set(list[i], list[i]);
-
-                    icons.play();
-                </script>
-                <p>FRIDAY
-                    <label>13</label>
-                    <sup>th</sup>
-                    AUG
-                </p>
-            </div>
-            <div class="weather-top-right">
-                <p><i class="fa fa-map-marker"></i>lorem ipsum</p>
-                <label>lorem ipsum</label>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="weather-bottom">
-            <div class="weather-bottom1">
-                <div class="weather-head">
-                    <h4>Cloudy</h4>
-                    <figure class="icons">
-                        <canvas id="cloudy" width="58" height="58"></canvas>
-                    </figure>
-                    <script>
-                        var icons = new Skycons({"color": "#999"}),
-                                list = [
-                                    "clear-night", "cloudy",
-                                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                                    "fog"
-                                ],
-                                i;
-
-                        for (i = list.length; i--;)
-                            icons.set(list[i], list[i]);
-
-                        icons.play();
-                    </script>
-                    <h6>20°</h6>
-
-                    <div class="bottom-head">
-                        <p>August 16</p>
-
-                        <p>Monday</p>
-                    </div>
-                </div>
-            </div>
-            <div class="weather-bottom1 ">
-                <div class="weather-head">
-                    <h4>Sunny</h4>
-                    <figure class="icons">
-                        <canvas id="clear-day" width="58" height="58">
-                        </canvas>
-                    </figure>
-                    <script>
-                        var icons = new Skycons({"color": "#999"}),
-                                list = [
-                                    "clear-night", "clear-day",
-                                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                                    "fog"
-                                ],
-                                i;
-
-                        for (i = list.length; i--;)
-                            icons.set(list[i], list[i]);
-
-                        icons.play();
-                    </script>
-                    <h6>37°</h6>
-
-                    <div class="bottom-head">
-                        <p>August 17</p>
-
-                        <p>Tuesday</p>
-                    </div>
-                </div>
-            </div>
-            <div class="weather-bottom1">
-                <div class="weather-head">
-                    <h4>Rainy</h4>
-                    <figure class="icons">
-                        <canvas id="sleet" width="58" height="58">
-                        </canvas>
-                    </figure>
-                    <script>
-                        var icons = new Skycons({"color": "#999"}),
-                                list = [
-                                    "clear-night", "clear-day",
-                                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                                    "fog"
-                                ],
-                                i;
-
-                        for (i = list.length; i--;)
-                            icons.set(list[i], list[i]);
-
-                        icons.play();
-                    </script>
-
-                    <h6>7°</h6>
-
-                    <div class="bottom-head">
-                        <p>August 18</p>
-
-                        <p>Wednesday</p>
-                    </div>
-                </div>
-            </div>
-            <div class="weather-bottom1 ">
-                <div class="weather-head">
-                    <h4>Snowy</h4>
-                    <figure class="icons">
-                        <canvas id="snow" width="58" height="58">
-                        </canvas>
-                    </figure>
-                    <script>
-                        var icons = new Skycons({"color": "#999"}),
-                                list = [
-                                    "clear-night", "clear-day",
-                                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
-                                    "fog"
-                                ],
-                                i;
-
-                        for (i = list.length; i--;)
-                            icons.set(list[i], list[i]);
-
-                        icons.play();
-                    </script>
-                    <h6>-10°</h6>
-
-                    <div class="bottom-head">
-                        <p>August 16</p>
-
-                        <p>Thursday</p>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-
-    </div>
-</div>
-<div class="clearfix"></div>
-</div>
-<!--//content-->
-<!---->
 <div class="copy">
             <p> &copy; 2016 Raspberry Pi Web API. All Rights Reserved | Ilja Grebel</p>
 	    </div>

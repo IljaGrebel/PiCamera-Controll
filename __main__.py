@@ -31,14 +31,14 @@
     - GUI-APP for Linux, OS X, Windows
     - GUI-APP for iOS and Android
     - Save captures on USB or Raspberry Pi
-    - auto-updater
     #######################################################
     :| Updates
     v1.01 - Some bug fixed
     v1.02 - Added more system information
     v1.03 - Added logging information, no print messages in console anymore
     v1.04 - Added Frame status while recording
-    v.05 - Updating from GitHub
+    v1.05 - HD Video Processor OSD - Hex
+    v1.06 - Upload BMP files
     '''
 
 # All print messages are only for debuggin/manual starting from console
@@ -48,6 +48,7 @@ from flask import Flask, session, url_for, escape, request
 from flask import json as flask_json
 from simplepam import authenticate
 from flask import render_template, redirect
+from werkzeug.utils import secure_filename
 import datetime
 import time
 import os
@@ -61,9 +62,11 @@ import RPi.GPIO as GPIO
 import psutil
 #import iptools
 import logging
-import serial
+from PIL import Image
 import spidev
-
+import struct
+from spi import *
+import spi
 
 #create log file
 logging.basicConfig(format = u'%(levelname)-8s [%(asctime)s] %(message)s', level = logging.DEBUG, filename = u'log.log')
@@ -204,7 +207,7 @@ def network():
         logging.error("Not logged in")
         return render_template('login.html')
 
-#TODO - fix
+#not worked yet
 @app.route('/change_ip', methods=['POST'])
 def change_ip():
     if 'username' in session:
@@ -266,30 +269,30 @@ def pin():
         PIN_Number = '21'
     #Model B Revision 1.0
     elif myrevision == '0002':
-        PIN_Number = '42'
+        PIN_Number = '41'
     #Model B Revision 1.0 + ECN0001 (no fuses, D14 removed)
     elif myrevision == '0003':
-        PIN_Number = '42'
+        PIN_Number = '41'
     #Model B Revision 2.0
     elif myrevision == '0004' or '0005' or '0006':
-        PIN_Number = '42'
+        PIN_Number = '41'
     #Model A
     elif myrevision == '0007' or '0008' or '0009':
-        PIN_Number = '42'
+        PIN_Number = '41'
     #Model B Revision 2.0
     elif myrevision == '000d' or '000e' or '000f':
-        PIN_Number = '42'
+        PIN_Number = '41'
     #Model B+
     elif myrevision == '0010':
-        PIN_Number = '42'
+        PIN_Number = '41'
     #Compute Module
     elif myrevision == '0011':
-        PIN_Number = '42'
+        PIN_Number = '41'
     #Model A+
     elif myrevision == '0012':
-        PIN_Number = '42'
+        PIN_Number = '41'
     else:
-        PIN_Number = '42'
+        PIN_Number = '41'
     return 'Revision - %s and PIN %s' % (myrevision, PIN_Number)
 
 @app.route('/raspname', methods=['GET'])
@@ -477,7 +480,7 @@ def timestamp():
     st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H:%M:%S')
     return st
 
-#TODO Change path
+#TODO - Change path
 @app.route('/path', methods=['POST', 'GET'])
 def path():
     current_path = os.system('pwd')
@@ -490,7 +493,6 @@ def path():
                 d['comment'] = 'saving on RPi'
             # current_path = os.system('pwd')
             else:
-
                 d = collections.OrderedDict()
                 d['status'] = 200
                 d['path'] = current_path
@@ -508,6 +510,7 @@ def mkdir():
     img_dir = record_dir + 'images/'
     os.mkdir(record_dir)
     os.mkdir(img_dir)
+    os.system("sudo chown -R pi:pi %s" % record_dir)
     logging.info('Creating directiories %s' % (record_dir + img_dir))
     return record_dir + img_dir
 
@@ -670,26 +673,6 @@ def pre_status():
             logging.error("Not logged in")
             return render_template('login.html')
 
-'''
-# PAUSE RECORD - NOT WORKING AT MOMENT + JSON REQUEST/RESPONSE
-@app.route('/pause_record', methods=['POST'])
-def pause_record():
-    global camera
-    with camlock:
-        if 'username' in session:
-            if camera:
-                d = collections.OrderedDict()
-                d['status'] = 200
-                return 'already paused ' + config.get('ENCODER', 'record_file') + config.get('ENCODER', 'video_fmt')
-            logging.info("pause record")
-            camera = picamera.PiCamera()
-            time.sleep(900000)
-            return 'Recording to ' + config.get('ENCODER', 'record_file') + config.get('ENCODER', 'video_fmt') + ' paused'
-        else:
-            logging.error("Not logged in")
-            return render_template('login.html')
-'''
-
 # STOP RECODING
 @app.route('/stop_record', methods=['POST'])
 def stop_capture():
@@ -794,116 +777,7 @@ def screenshot():
             logging.error("Not logged in")
             return render_template('login.html')
 
-#TODO
-@app.route('/get_video', methods=['GET'])
-def get_video():
-    if 'username' in session:
-        os.system('ls rec*/*.h264')
-        os.system('ls rec*/*.mjpeg')
-        return 0
-    else:
-        return 0
-
-#TODO
-@app.route('/get_images', methods=['GET'])
-def get_images():
-    if 'username' in session:
-        os.system('ls rec*/images/*.jpeg')
-        os.system('ls rec*/images/*.png')
-        os.system('ls rec*/images/*.gif')
-        os.system('ls rec*/images/*.bmp')
-        os.system('ls rec*/images/*.yuv')
-        os.system('ls rec*/images/*.rgb')
-        os.system('ls rec*/images/*.rgba')
-        os.system('ls rec*/images/*.bgr')
-        os.system('ls rec*/images/*.bgra')
-        return 0
-    else:
-        logging.error('Not logged in')
-        return 0
-
-@app.route('/update', methods=['POST'])
-def update():
-    os.system('git merge')
-    logging.info('Updating')
-    return 0
-
-#SPI - Bank1
-@app.route('/spi_b1', methods=['POST'])
-def spi_b1():
-    spi = spidev.SpiDev()
-    spi.open(0,1)
-    spi.xfer2([0x80, 0x01])
-    spi.xfer2('adderss')
-    return 0
-
-#SPI - Bank2
-@app.route('/spi_b2', methods=['POST'])
-def spi_b2():
-    spi = spidev.SpiDev()
-    spi.open(0,1)
-    to_send = [[0x80, 0x02]]
-    spi.xfer2(to_send)
-    #spi.xfer('address')
-    return 0
-
-#SPI - Bank3
-@app.route('/spi_b3', methods=['POST'])
-def spi_b3():
-    spi = spidev.SpiDev()
-    spi.open(0,1)
-    spi.xfer2([0x80, 0x03])
-    spi.xfer2([0x90, 0x15])
-    print_message = ('0x80, 0x03 and 0x90, 0x15')
-    print 'send %s' % print_message
-    return 'send %s' % print_message
-
-@app.route('/spi_test', methods=['POST'])
-def spi_test():
-    spi = spidev.SpiDev()
-    spi.open(0,0)
-    while True:
-        spi.xfer([0,0,0])      # turn all LEDs off
-        time.sleep(1)
-        spi.xfer([1,255,255])  # turn all LEDs on
-        time.sleep(1)
-    return 0
-
-#UART - Steuerung
-'''
-@app.route('/serial_b1', methods=['GET', 'POST'])
-def serial_b1():
-    port = serial.Serial(bytesize=8, ) #open serial port
-    print (port.name) #check which port was really used
-    port.write(b '') #write a string
-    port.close() #close port
-    return 'port closed'
-
-@app.route('/serial_b2', methods=['GET', 'POST'])
-def serial_b2():
-    port = serial.Serial('')
-    print (port.name)
-    port.write(b '')
-    port.close()
-    return 'port closed'
-
-@app.route('/serial_b3', methods=['GET', 'POST'])
-def serial_b3():
-    port = serial.Serial('')
-    print (port.name)
-    port.write(b '')
-    port.close()
-    return 'port closed'
-'''
-
 #################   WEB API   ##################
-
-#@app.route('/get_recordings', methods=['GET'])
-#def get_recordings():
-
-#@app.route('/get_screenshots', methonds=['GET])
-#def get_screenshots():
-
 @app.route('/')
 def index():
     if 'username' in session:
@@ -925,7 +799,7 @@ def login():
             #return render_template('error.html') <-- redirect in error.html
             #return render_template('f_login.html')
             #return 'Invalid username/password'
-            return render_template('f_login.html')
+            return render_template('login.html')
     return render_template('login.html')
 
 @app.route('/index.html')
@@ -964,18 +838,209 @@ def previewhtml():
     logging.error('Not logged in')
     return render_template('login.html')
 
-@app.route('/spi_test')
-def spi_test():
-    if 'username' in session:
-        return render_template('spi_test.html')
-    logging.error('Not logged in')
-    return render_template('login.html')
-
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('index'))
+
+@app.route('/upload.html')
+def upload_html():
+    if 'username' in session:
+        return render_template('upload.html')
+    logging.error('Not logged in')
+    return render_template('login.html')
+
+######## UART/TTY #########
+import serial
+
+@app.route("/activate_tty", methods=['POST'])
+def activate_tty():
+    os.system("sudo systemctl stop serial-getty@ttyAMA0.service")
+    return
+
+@app.route("/send_tty", methods=["POST"])
+def send_tty():
+    ser = serial.Serial('/dev/ttyAMA0', 115800)
+    print(ser.name)
+    ser.write(b'c')
+    return
+
+def uart():
+    os.system()
+    return
+
+######## SPI ###########
+#TODO SPI Read - not finisched yet
+spi = spidev.SpiDev()
+spi.open(0,0)
+
+def spi_read():
+    resp = spi.xfer2([0x80, 0x02, 0x00, 0xFF, 0x01, 0xFF, 0x02, 0xFF, 0x03, 0xFF, 0x04, 0xFF, 0x05, 0xFF, 0x06, 0xFF, 0x07, 0xFF, 0x08, 0xFF, 0x09, 0xFF, 0x0A, 0xFF, 0x0B, 0xFF, 0x0C, 0xFF, 0x0D, 0xFF, 0x0E, 0xFF, 0x0F, 0xFF])
+    print hex(resp[3])
+    print hex(resp[5])
+    print hex(resp[7])
+    print hex(resp[9])
+    print hex(resp[11])
+    print hex(resp[13])
+    print hex(resp[15])
+    print hex(resp[17])
+    print hex(resp[19])
+    print hex(resp[21])
+    print hex(resp[23])
+    print hex(resp[25])
+    print hex(resp[27])
+    print hex(resp[29])
+    print hex(resp[31])
+    print hex(resp[33])
+    return []
+
+spi_x = SPI("/dev/spidev0.0")
+spi_x.mode = SPI.MODE_0
+spi_x.bits_per_word = 8
+spi_x.speed = 2000000
+
+UPLOAD_FOLDER = '/home/pi/uploads/'
+ALLOWED_EXTENSIONS = set(['bmp'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_filename(filename):
+    return '.' in filename and\
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    if 'username' in session:
+        if request.method == 'POST':
+            if 'file' not in request.files:
+                print('No file part')
+                return redirect(request.url)
+            file = request.files['file']
+            if file.filename == '':
+                print('No selected file')
+                return redirect(request.url)
+            if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                os.mkdir(app.config['UPLOAD_FOLDER'])
+                os.system("sudo chown pi:pi -R %s" % app.config['UPLOAD_FOLDER'])
+            if file and allowed_filename(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                return render_template('upload.html')
+    logging.error('Not logged in')
+    return
+
+@app.route('/color_palett', methods=['GET'])
+def color_palett():
+    if 'username' in session:
+        img = Image.open(path, 'r')
+        img.load()
+        color = img.getpalette()
+        d = collections.OrderedDict()
+        d['status'] = 200
+        d['palettRed'] = []
+        d['palettGreen'] = []
+        d['palettBlue'] = []
+    return flask_json.dumps(d,sort_keys=False, indent=True)
+
+@app.route('/image_list', methods=['GET'])
+def image_list():
+    if 'username' in session:
+        d = collections.OrderedDict()
+        d['status'] = 200
+        d['files'] = os.listdir(app.config['UPLOAD_FOLDER'])
+        return flask_json.dumps(d, sort_keys=False, indent=True)
+    logging.error('Not logged in')
+    return
+
+def chunks(l, n):
+    for i in xrange(0, len(l), n):
+        yield l[i:i+n]
+
+@app.route('/spi_send', methods=['POST'])
+def spi_send():
+    if 'username' in session:
+        #load picture
+        _filename = request.form['_filename']
+        path = UPLOAD_FOLDER + _filename
+        img = Image.open(path, 'r')
+        img.load()
+        width = img.size[0]
+        heigth = img.size[1]
+        pixel_bytes = list(img.getdata())
+        color_palett = img.getpalette()
+
+        #send color palette
+        spi_x.transfer([0x80, 0x03])
+        spi_x.transfer([0x80, 0x03, 0x9B, 0x00])
+        spi_x.transfer([0x80, 0x03])
+        color_address = [0x80, 0x43, 0x9C]
+        spi_x.transfer(color_address + color_palett)
+
+        #send picture bytes
+        spi_x.transfer([0x80, 0x00])
+        picb = ([0x80, 0x00])
+        pic = ([0xCB, 0x00, 0xCC, 0x00, 0xCD, 0x00, 0xCE, 0x03]) #TODO - choose other address to transfere BMP
+        spi_x.transfer(picb + pic)
+        for chunk in chunks(pixel_bytes, 4000): #send every 4000 lines of bytes
+            spi_x.transfer([0x80, 0x00])
+            byte = ([0x80, 0x40, 0xCF])
+            spi_x.transfer(byte + chunk)
+
+        spi_x.transfer([0x80, 0x03])
+        spi_x.transfer([0x80, 0x03, 0x96, 0x00])
+        spi_x.transfer([0x80, 0x03, 0x97, 0x00])
+        spi_x.transfer([0x80, 0x03, 0x98, 0x00])
+        spi_x.transfer([0x80, 0x03, 0x99, 0x03]) #TODO - choose other address to transfere BMP
+
+        osd_memory = [0x80, 0x03, 0x9A]
+        value1 = width / 128
+        send1 = osd_memory + [value1]
+        spi_x.transfer(send1)
+
+        #picture position heigth
+        _osd_heigth = request.form["_osd_heigth"]
+        heigth1 = [ord(item) for item in struct.pack('>i', int(_osd_heigth))]
+        osd_heigth1 = ([0x80, 0x03, 0x8E])
+        osd_send1 = osd_heigth1 + [heigth1[3]]
+        spi_x.transfer(osd_send1)
+        osd_heigth2 = ([0x80, 0x03, 0x8F])
+        osd_send2 = osd_heigth2 + [heigth1[2]]
+        spi_x.transfer(osd_send2)
+
+        #picture heigth
+        hwidth1 = [0x80, 0x03, 0x90]
+        value2 = [ord(item) for item in struct.pack('>i', width)]
+        send2 = hwidth1 + [value2[3]]
+        spi_x.transfer(send2)
+        hwidth2 = [0x80, 0x03, 0x91]
+        send3 = hwidth2 + [value2[2]]
+        spi_x.transfer(send3)
+
+        #picture position - width
+        _osd_width = request.form["_osd_width"]
+        width1 = [ord(item) for item in struct.pack('>i', int(_osd_width))]
+        osd_width1 = ([0x80, 0x03, 0x92])
+        osd_send3 = osd_width1 + [width1[3]]
+        spi_x.transfer(osd_send3)
+        osd_width2 = ([0x80, 0x03, 0x93])
+        osd_send4 = osd_width2 + [width1[2]]
+        spi_x.transfer(osd_send4)
+
+        #picture width
+        vwidth1 = [0x80, 0x03, 0x94]
+        value4 = [ord(item) for item in struct.pack('>i', heigth)]
+        send4 = vwidth1 + [value4[3]]
+        spi_x.transfer(send4)
+        vwidth2 = [0x80, 0x03, 0x95]
+        send5 = vwidth2 + [value4[2]]
+        spi_x.transfer(send5)
+
+        spi_x.transfer([0x80, 0x03, 0x89, 0x40]) #Enable color pallet
+        spi_x.transfer([0x80, 0x03, 0x88, 0x02]) #Bitmap OSD is displayed without transparency (0x02); Bitmap OSD is displayed with transparency (0x03)
+        return []
+    logging.error('Not logged in')
+    return []
+
 
 if __name__ == "__main__":
     try:
@@ -984,7 +1049,7 @@ if __name__ == "__main__":
         pin()
         raspiname()
         #app.debug = True
-        app.run(host='0.0.0.0', port=80)
+        app.run(host='0.0.0.0', port=80) #for port 80, you will need SUDO
     finally:
         # After http-server work is finished, shut off the camera
         with camlock:
