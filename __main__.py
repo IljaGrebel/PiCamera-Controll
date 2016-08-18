@@ -777,6 +777,111 @@ def screenshot():
             logging.error("Not logged in")
             return render_template('login.html')
 
+<<<<<<< HEAD
+=======
+#TODO
+@app.route('/get_video', methods=['GET'])
+def get_video():
+    if 'username' in session:
+        os.system('ls rec*/*.h264')
+        os.system('ls rec*/*.mjpeg')
+        return 0
+    else:
+        return 0
+
+#TODO
+@app.route('/get_images', methods=['GET'])
+def get_images():
+    if 'username' in session:
+        os.system('ls rec*/images/*.jpeg')
+        os.system('ls rec*/images/*.png')
+        os.system('ls rec*/images/*.gif')
+        os.system('ls rec*/images/*.bmp')
+        os.system('ls rec*/images/*.yuv')
+        os.system('ls rec*/images/*.rgb')
+        os.system('ls rec*/images/*.rgba')
+        os.system('ls rec*/images/*.bgr')
+        os.system('ls rec*/images/*.bgra')
+        return 0
+    else:
+        logging.error('Not logged in')
+        return 0
+
+@app.route('/update', methods=['POST'])
+def update():
+    os.system('git pull')
+    logging.info('Updating')
+    return 0
+
+#SPI - Bank1
+@app.route('/spi_b1', methods=['POST'])
+def spi_b1():
+    spi = spidev.SpiDev()
+    spi.open(0,1)
+    spi.xfer2([0x80, 0x01])
+    spi.xfer2('adderss')
+    return 0
+
+#SPI - Bank2
+@app.route('/spi_b2', methods=['POST'])
+def spi_b2():
+    spi = spidev.SpiDev()
+    spi.open(0,1)
+    to_send = [[0x80, 0x02]]
+    spi.xfer2(to_send)
+    #spi.xfer('address')
+    return 0
+
+#SPI - Bank3
+@app.route('/spi_b3', methods=['POST'])
+def spi_b3():
+    spi = spidev.SpiDev()
+    spi.open(0,1)
+    spi.xfer2([0x80, 0x03])
+    spi.xfer2([0x90, 0x15])
+    print_message = ('0x80, 0x03 and 0x90, 0x15')
+    print 'send %s' % print_message
+    return 'send %s' % print_message
+
+@app.route('/spi_test', methods=['POST'])
+def spi_test():
+    spi = spidev.SpiDev()
+    spi.open(0,0)
+    while True:
+        spi.xfer([0,0,0])      # turn all LEDs off
+        time.sleep(1)
+        spi.xfer([1,255,255])  # turn all LEDs on
+        time.sleep(1)
+    return 0
+
+#UART - Steuerung
+'''
+@app.route('/serial_b1', methods=['GET', 'POST'])
+def serial_b1():
+    port = serial.Serial(bytesize=8, ) #open serial port
+    print (port.name) #check which port was really used
+    port.write(b '') #write a string
+    port.close() #close port
+    return 'port closed'
+
+@app.route('/serial_b2', methods=['GET', 'POST'])
+def serial_b2():
+    port = serial.Serial('')
+    print (port.name)
+    port.write(b '')
+    port.close()
+    return 'port closed'
+
+@app.route('/serial_b3', methods=['GET', 'POST'])
+def serial_b3():
+    port = serial.Serial('')
+    print (port.name)
+    port.write(b '')
+    port.close()
+    return 'port closed'
+'''
+
+>>>>>>> origin/master
 #################   WEB API   ##################
 @app.route('/')
 def index():
