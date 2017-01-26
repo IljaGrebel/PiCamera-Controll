@@ -37,6 +37,7 @@
 </head>
 <body>
 <div id="wrapper">
+
 <!----->
 <nav class="navbar-default navbar-static-top" role="navigation">
     <div class="navbar-header">
@@ -129,22 +130,23 @@
     <h2>
         <a href="index.html">Home</a>
         <i class="fa fa-angle-right"></i>
-        <span>Record</span>
+        <span>OSD/TTY</span>
     </h2>
 </div>
 <!--//banner-->
 <!--//content-->
 <div class="content-top">
-    <div class="col-md-4 ">
+    <div class="col-md-spi col-md-4">
         <div class="content-top-1">
             <div class="col-md-6 top-content">
-                <h5>Start Record</h5>
-            </div>
+                <h5>Upload BMP</h5>
+            </div><br>
             <div class="col-md-6 top-content1">
                 <div>
-                    <form style="border: none; box-shadow: none;" data-script="start_record" class="post">
+                    <form action="upload" method=post enctype=multipart/form-data>
+                        <p><input type=file name=file>
                         <div>
-                            <button style="margin-top: 15px" id="start_record" type="button" class="btn btn-lg btn-default">Start Record</button>
+                            <input style="margin-top: 15px" class="btn btn-lg btn-default" type=submit value=Upload>
                         </div>
                     </form>
                 </div>
@@ -153,47 +155,145 @@
         </div>
         <div class="content-top-1">
             <div class="col-md-6 top-content">
-                <h5>Stop Record</h5>
+                <h5>OSD</h5>
             </div>
             <div class="col-md-6 top-content1">
-                <form style="border: none; box-shadow: none" data-script="stop_record" class="post">
-                    <div>
-                        <button style="margin-top: 15px" id="stop_record" type="button" class="btn btn-lg btn-default">Stop Record</button>
-                    </div>
-                </form>
+                <div>
+                    <form style="border: none; box-shadow: none;" data-script="image_list" class="get">
+                        <div>
+                            <button style="margin-top: 15px; float: left;" id="image_list" type="button" class="btn btn-lg btn-default">List Image</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="osd_off" class="post">
+                        <div>
+                            <button style="margin-top: 15px; margin-left: 10px;" type="button" class="btn btn-lg btn-default">Disable OSD</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+            <br>
+            <form data-script="spi_send" style="border: none; border-shadow: none;" class="post form-horizontal">
+                <div class="form-group">
+                    <label for="_filename" class="col-sm-2 control-label">Filename</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_filename" name="_filename" placeholder="Filename" required style="margin-left: 45px">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_osd_width" class="col-sm-2 control-label">Height</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_width" name="_osd_width" type="number" placeholder="0" value="0" required style="margin-left: 45px;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_osd_heigth" class="col-sm-2 control-label">Width</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_heigth" name="_osd_heigth" type="number" placeholder="0" value="0" required style="margin-left: 45px">
+                    </div>
+                </div>
+                <div class="form-group">
+                <label for="selector2" class="col-sm-2 control-label">Transparency</label>
+                    <div class="col-sm-8">
+                        <select name="_transparency" id="selector2" class="form-control1"  style="margin-left: 45px;">
+                            <option id="_transparency" name="_transparency" value="no">no</option>
+                            <option id="_transparency" name="_transparency" value="yes">yes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_first_color" class="col-sm-2 control-label">Color</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_first_color" name="_first_color" style="margin-left: 45px">
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn-primary btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <div class="clearfix"> </div>
         </div>
         <div class="content-top-1">
             <div class="col-md-6 top-content">
-                <h5>Record Status</h5>
+                <h5 style="margin-bottom: 20px">Paint</h5>
             </div>
-            <div class="col-md-6 top-content1">
-                <form style="border: none; box-shadow: none" data-script="status" class="get">
-                    <div>
-                        <button style="margin-top: 15px" type="button" class="btn btn-lg btn-default">Record Status</button>
+            <form data-script="paint" style="border: none; border-shadow: none;" class="post form-horizontal">
+                <div class="form-group">
+                    <label for="_serial" class="col-sm-2 control-label">hstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_paint_param1" name="_osd_paint_param1" required>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label for="_serial" class="col-sm-2 control-label">hsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_paint_param2" name="_osd_paint_param2" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_serial" class="col-sm-2 control-label">vstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_paint_param3" name="_osd_paint_param3" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_serial" class="col-sm-2 control-label">vsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_paint_param4" name="_osd_paint_param4" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_serial" class="col-sm-2 control-label">color</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_osd_paint_param5" name="_osd_paint_param5" required>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn-primary btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
                 </form>
-            </div>
             <div class="clearfix"> </div>
         </div>
         <div class="content-top-1">
             <div class="col-md-6 top-content">
-                <h5>Make Screenshot</h5>
+                <h5>TTY</h5>
             </div>
-            <div class="col-md-6 top-content1">
-                <form style="border: none; box-shadow: none" data-script="screenshot" class="post">
-                    <div>
-                        <button style="margin-top: 15px" type="button" class="btn btn-lg btn-default">Screenshot</button>
+            <!--<div class="col-md-6 top-content1">
+                <div>
+                    <form style="border: none; box-shadow: none;" data-script="activate_tty" class="post">
+                        <div>
+                            <button style="margin-top: 15px" id="activate_tty" type="button" class="btn btn-lg btn-default">Activate TTY</button>
+                        </div>
+                    </form>
+                </div>
+            </div>-->
+            <form data-script="send_tty" style="border: none; border-shadow: none;" class="post form-horizontal">
+                <div class="form-group">
+                    <label for="_serial" class="col-sm-2 control-label">Command</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_serial" name="_serial" required>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn-primary btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <div class="clearfix"> </div>
         </div>
     </div>
-    <div class="col-md-8 content-top-1">
-            <!--JSON
-            -->
+    <div class="col-md-spi-2 content-top-1 col-md-8">
+            <!--JSON-->
             <link rel=stylesheet type=text/css href="{{ url_for('static', filename='graph.css') }}">
             <!--//graph-->
             <div class="graph-container">
@@ -220,6 +320,6 @@
 <script src="static/js/scripts.js"></script>
 <!--//scrolling js-->
 <script src="static/js/bootstrap.min.js"></script>
-<script src="static/js/index_scripts.js"></script>
+<script src="static/js/spi_script.js"></script>
 </body>
 </html>

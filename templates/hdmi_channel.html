@@ -1,0 +1,456 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Raspberry Pi | Web API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- Custom Theme files -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='font-awesome.css') }}">
+    <script src="static/js/jquery.min.js"></script>
+    <!-- Mainly scripts -->
+    <script src="static/js/jquery.metisMenu.js"></script>
+    <script src="static/js/jquery.slimscroll.min.js"></script>
+    <!-- Custom and plugin javascript -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
+    <script src="static/js/custom.js"></script>
+    <script src="static/js/screenfull.js"></script>
+    <script>
+        $(function () {
+            $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+            if (!screenfull.enabled) {
+                return false;
+            }
+            $('#toggle').click(function () {
+                screenfull.toggle($('#container')[0]);
+            });
+        });
+    </script>
+    <!----->
+</head>
+<body>
+<div id="wrapper">
+
+<!----->
+<nav class="navbar-default navbar-static-top" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+        </button>
+        <h1><a class="navbar-brand" href="index.html">RPi</a></h1>
+    </div>
+    <div class=" border-bottom">
+        <div class="full-left">
+            <section class="full-top">
+                <button id="toggle"><i class="fa fa-arrows-alt"></i></button>
+            </section>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Brand and toggle get grouped for better mobile display -->
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="drop-men">
+            <ul class=" nav_1">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class="name-caret">System<i
+                            class="caret"></i></span><img width="60" height="60"  src="static/images/Raspi-PGB001.png"></a>
+                    <ul class="dropdown-menu " role="menu">
+                        <li><a href="system.html"><i class="fa fa-user"></i>System Info</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+        <div class="clearfix">
+        </div>
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="index.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-video-camera nav_icon "></i><span
+                                    class="nav-label">Record</span> </a>
+                        </li>
+                        <li>
+                            <a href="preview.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-video-camera nav_icon "></i><span
+                                    class="nav-label">Preview</span> </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-cog nav_icon"></i> <span
+                                    class="nav-label">Settings</span> </a>
+                        </li>
+                        <li>
+                        <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-bars nav_icon"></i> <span class="nav-label">V100</span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="spi_tty.html" class="hvr-bounce-to-right"><i class="fa fa-terminal nav_icon"></i> <span
+                                    class="nav-label">OSD/TTY</span> </a>
+                            </li>
+                            <li><a href="v100.html" class="hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span
+                                    class="nav-label">V100 - Information</span> </a>
+                            </li>
+                            <li><a href="hdmi_channel.html" class="hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span
+                                    class="nav-label">HDMI - Settings</span> </a>
+                            </li>
+                             <li><a href="dragndrop.html" class="hvr-bounce-to-right"><i class="fa fa-dribbble nav_icon"></i> <span
+                                    class="nav-label">DragNDrop</span> </a>
+                            </li>
+                        </ul>
+                        </li>
+                       <!-- <li>
+                            <a href="faq.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-question-circle nav_icon"></i> <span
+                                    class="nav-label">FAQ</span> </a>
+                        </li>-->
+                        <li>
+                            <a href="logout" class=" hvr-bounce-to-right"><i class="fa fa-sign-out nav_icon"></i><span
+                                    class="nav-label">Logout</span></a>
+                        </li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<div id="page-wrapper" class="gray-bg dashbard-1">
+<div class="content-main">
+
+<!--banner-->
+<div class="banner">
+    <h2>
+        <a href="index.html">Home</a>
+        <i class="fa fa-angle-right"></i>
+        <span>HDMI Settings</span>
+    </h2>
+</div>
+<!--//banner-->
+<!--//content-->
+<div class="content-top">
+    <div class="col-md-hdmi col-md-4">
+        <div class="content-top-1">
+            <div class="col-md-6 top-content">
+                <h5>Main Channel Settings (CH1)</h5>
+            </div>
+            <div class="col-md-6 top-content1">
+                <div>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_out_full" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" type="button" class="btn btn-lg btn-default">Full</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_out_sbs" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" type="button" class="btn btn-lg btn-default">Side by side</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_out_pip" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" type="button" class="btn btn-lg btn-default">Picture in picture</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_out_pip_tl" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" type="button" class="btn btn-lg btn-default">Top Left</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_out_pip_tr" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" type="button" class="btn btn-lg btn-default">Top Right</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_out_pip_bl" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" type="button" class="btn btn-lg btn-default">Bottom Left</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_out_pip_br" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px;" type="button" class="btn btn-lg btn-default">Bottom Right</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="output_timing-576p50" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left" type="button" value="c17" class="btn btn-lg btn-default">576p50</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="output_timing-720p50" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left" type="button"  class="btn btn-lg btn-default">720p50</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="output_timing-720p60" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left" type="button"  class="btn btn-lg btn-default">720p60</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="output_timing-1080p24" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left" type="button"  class="btn btn-lg btn-default">1080p24</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="output_timing-1080p25" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left" type="button"  class="btn btn-lg btn-default">1080p25</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="output_timing-1080p30" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left" type="button"  class="btn btn-lg btn-default">1080p30</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="output_timing-1080p50" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left" type="button"  class="btn btn-lg btn-default">1080p50</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="output_timing-1080p60" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left" type="button"  class="btn btn-lg btn-default">1080p60</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_out_swap" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px" id="chn1_out_swap" name="chn1_out_swap" type="button" class="btn btn-lg btn-default">Swap</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="content-top-1">
+            <div class="col-md-6 top-content">
+                <h5 style="margin-bottom: 15px;">CH1 - Manual (OUT)</h5>
+            </div>
+            <form data-script="chn1_out_manual" style="border: none; border-shadow: none;" class="post form-horizontal">
+                <div class="form-group">
+                    <label for="_chn1_out_manual_param2" class="col-sm-2 control-label">hstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn1_out_manual_param2" name="_chn1_out_manual_param2" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn1_out_manual_param3" class="col-sm-2 control-label">hsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn1_out_manual_param3" name="_chn1_out_manual_param3" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn1_out_manual_param4" class="col-sm-2 control-label">vstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn1_out_manual_param4" name="_chn1_out_manual_param4" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn1_out_manual_param5" class="col-sm-2 control-label">vsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn1_out_manual_param5" name="_chn1_out_manual_param5" type="number" required>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn-primary btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="content-top-1">
+            <div class="col-md-6 top-content">
+                <h5>CH1 - IN</h5>
+            </div>
+            <div class="col-md-6 top-content1">
+                <div>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_in_fill" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" id="chn1_in_fill" name="chn1_in_fill" type="button" class="btn btn-lg btn-default">Fill</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_in_fit" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" id="chn1_in_fit" name="chn1_in_fit" type="button" class="btn btn-lg btn-default">Fit</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_in_none" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" id="chn1_in_none" name="chn1_in_none" type="button" class="btn btn-lg btn-default">None</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn1_in_zoom" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px" id="chn1_in_zoom" name="chn1_in_zoom" type="button" class="btn btn-lg btn-default">Zoom</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <br>
+            <div class="col-md-6 top-content">
+                <h5 style="margin-bottom: 10px">CH1 - Manual</h5>
+            </div>
+            <form data-script="chn1_in_manual" style="border: none; border-shadow: none;" class="post form-horizontal">
+                <div class="form-group">
+                    <label for="_chn1_in_manual_param2" class="col-sm-2 control-label">hstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn1_in_manual_param2" name="_chn1_in_manual_param2" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn1_in_manual_param3" class="col-sm-2 control-label">hsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn1_in_manual_param3" name="_chn1_in_manual_param3" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn1_in_manual_param4" class="col-sm-2 control-label">vstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn1_in_manual_param4" name="_chn1_in_manual_param4" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn1_in_manual_param5" class="col-sm-2 control-label">vsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn1_in_manual_param5" name="_chn1_in_manual_param5" type="number" required>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn-primary btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="content-top-1">
+            <div class="col-md-6 top-content">
+                <h5 style="margin-bottom: 15px;">CH2 - Manual (OUT)</h5>
+            </div>
+            <form data-script="chn2_out_manual" style="border: none; border-shadow: none;" class="post form-horizontal">
+                <div class="form-group">
+                    <label for="_chn2_out_manual_param2" class="col-sm-2 control-label">hstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn2_out_manual_param2" name="_chn2_out_manual_param2" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn2_out_manual_param3" class="col-sm-2 control-label">hsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn2_out_manual_param3" name="_chn2_out_manual_param3" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn2_out_manual_param4" class="col-sm-2 control-label">vstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn2_out_manual_param4" name="_chn2_out_manual_param4" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn2_out_manual_param5" class="col-sm-2 control-label">vsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn2_out_manual_param5" name="_chn2_out_manual_param5" type="number" required>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn-primary btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="clearfix"> </div>
+        </div>
+        <div class="content-top-1">
+            <div class="col-md-6 top-content">
+                <h5>CH2 - IN</h5>
+            </div>
+            <div class="col-md-6 top-content1">
+                <div>
+                    <form style="border: none; box-shadow: none;" data-script="chn2_in_fill" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" id="chn2_in_fill" name="chn2_in_fill" type="button" class="btn btn-lg btn-default">Fill</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn2_in_fit" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" id="chn2_in_fit" name="chn2_in_fit" type="button" class="btn btn-lg btn-default">Fit</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn2_in_none" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px; float: left;" id="chn2_in_none" name="chn2_in_none" type="button" class="btn btn-lg btn-default">None</button>
+                        </div>
+                    </form>
+                    <form style="border: none; box-shadow: none;" data-script="chn2_in_zoom" class="post">
+                        <div>
+                            <button style="margin-left: 10px; margin-top: 10px" id="chn2_in_zoom" name="chn2_in_zoom" type="button" class="btn btn-lg btn-default">Zoom</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <br>
+            <div class="col-md-6 top-content">
+                <h5 style="margin-bottom: 10px">CH2 - Manual</h5>
+            </div>
+            <form data-script="chn2_in_manual" style="border: none; border-shadow: none;" class="post form-horizontal">
+                <div class="form-group">
+                    <label for="_chn2_in_manual_param2" class="col-sm-2 control-label">hstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn2_in_manual_param2" name="_chn2_in_manual_param2" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn2_in_manual_param3" class="col-sm-2 control-label">hsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn2_in_manual_param3" name="_chn2_in_manual_param3" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn2_in_manual_param4" class="col-sm-2 control-label">vstart</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn2_in_manual_param4" name="_chn2_in_manual_param4" type="number" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="_chn2_in_manual_param5" class="col-sm-2 control-label">vsize</label>
+                    <div class="col-sm-8">
+                        <input class="form-control1" id="_chn2_in_manual_param5" name="_chn2_in_manual_param5" type="number" required>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <button class="btn-primary btn">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+</div>
+<div class="copy">
+            <p> &copy; 2016 Raspberry Pi Web API. All Rights Reserved | Ilja Grebel</p>
+	    </div>
+		</div>
+		<div class="clearfix"> </div>
+       </div>
+     </div><!---->
+<!--scrolling js-->
+<script src="static/js/jquery.nicescroll.js"></script>
+<script src="static/js/scripts.js"></script>
+<!--//scrolling js-->
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/hdmi_script.js"></script>
+</body>
+</html>

@@ -2098,6 +2098,10 @@ pre code {
         width: 65.66666667%
     }
 
+    .col-sm-8-2 {
+        width: 50%%
+    }
+
     .col-sm-7 {
         width: 58.33333333%
     }
@@ -2120,6 +2124,10 @@ pre code {
 
     .col-sm-2 {
         width: 16.66666667%
+    }
+
+    .col-sm-2-2 {
+        width: 45%
     }
 
     .col-sm-1 {
@@ -2308,6 +2316,18 @@ pre code {
         width: 65.66666667%
     }
 
+    .col-md-spi-2 {
+        width: 48.5555555%
+    }
+
+    .col-md-dd-2 {
+        width: 74%
+    }
+
+    .col-md-v100-2 {
+        width: 50col-md-spi%
+    }
+
     .col-md-7 {
         width: 58.33333333%
     }
@@ -2318,6 +2338,18 @@ pre code {
 
     .col-md-4 {
         width: 33.33333333%
+    }
+
+    .col-md-spi {
+        width: 50%;
+    }
+
+    .col-md-dd {
+        width: 25%;
+    }
+
+    .col-md-hdmi {
+        width: 100%;
     }
 
     .col-md-3 {

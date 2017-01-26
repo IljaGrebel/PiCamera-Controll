@@ -1,0 +1,478 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Raspberry Pi | Web API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <!-- Custom Theme files -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='font-awesome.css') }}">
+    <script src="static/js/jquery.min.js"></script>
+    <!-- Mainly scripts -->
+    <script src="static/js/jquery.metisMenu.js"></script>
+    <script src="static/js/jquery.slimscroll.min.js"></script>
+    <!-- Custom and plugin javascript -->
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='custom.css') }}">
+    <script src="static/js/custom.js"></script>
+    <script src="static/js/screenfull.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+
+    <style>
+        .draggable2 {
+            width: 100px;
+            height: 80px;
+            padding: 5px;
+            float: left;
+            margin: 0 10px 10px 0;
+            font-size: .9em;
+            margin-left: 10px;
+            position: absolute;
+            left: -497px;
+            top: 25px;
+        }
+
+        .draggable3 {
+            width: 100px;
+            height: 80px;
+            padding: 5px;
+            margin: 0 10px 10px 0;
+            font-size: .9em;
+            margin-left: 10px;
+            position: absolute;
+            left: -312px;
+            top: 25px;
+        }
+
+        .ui-widget-header p,
+        .ui-widget-content p {
+            margin: 0;
+        }
+
+        /* Разрешение экрана нужно получать */
+
+        #snaptarget {
+            height: 540px;
+            width: 960px;
+            font-weight: 100;
+            font-size: 10px;
+        }
+
+        .ui-resizable-helper {
+            border: 2px dotted #000000;
+        }
+
+    </style>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+    <script>
+        $(function () {
+            $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+            if (!screenfull.enabled) {
+                return false;
+            }
+            $('#toggle').click(function () {
+                screenfull.toggle($('#container')[0]);
+            });
+        });
+
+        /* DRAG & DROP */
+        $(function () {
+            $("#draggable2").draggable({
+                snap: ".ui-widget-header",
+                snapMode: "outer",
+                stop: function () {
+                    getPosSize(this, 1);
+                }
+            });
+            /* Перемещение объекта */
+            $("#draggable2").resizable({
+                helper: "ui-resizable-helper",
+                containment: "#snaptarget",
+                stop: function () {
+                    getPosSize(this, 1);
+                }
+            });
+            /* Увелечение/Уменьшение объекта */
+            $("#draggable3").draggable({
+                snap: ".ui-widget-header",
+                snapMode: "outer",
+                stop: function () {
+                    getPosSize(this, 2);
+                }
+            });
+            /* Перемещение объекта */
+            $("#draggable3").resizable({
+                helper: "ui-resizable-helper",
+                containment: "#snaptarget",
+                stop: function () {
+                    getPosSize(this, 2);
+                }
+            });
+            /* Увелечение/Уменьшение объекта */
+        });
+
+
+        function getPosSize(EL, channel) {
+            var Rect = EL.getBoundingClientRect();
+            var papa = snaptarget.getBoundingClientRect();
+            $.ajax({
+                url: './dd_output_channels',
+                data: {
+                    channel: channel,
+                    top: Rect.top - papa.top,
+                    left: Rect.left - papa.left,
+                    width: EL.offsetWidth,
+                    height: EL.offsetHeight
+                },
+                type: 'POST',
+                dataType: 'text',
+                success: function (response) {
+                    console.log(response);
+                    $(".response-field").html(response);
+                },
+                error: function (error) {
+                    $(".response-field").html(error);
+                }
+            })
+        }
+
+        setTimeout(function () {
+
+            $.ajax({
+                type: "GET",
+                url: "/get_win_output",
+                processData: true,
+                dataType: "text",
+                cache: false,
+                success: function (data) {
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/get_win2_output_2",
+                processData: true,
+                dataType: "text",
+                cache: false,
+                success: function (data) {
+                    var get_win2_output_2 = jQuery.parseJSON(data);
+                    $("div[id='draggable3']").css({
+                        left: get_win2_output_2.left,
+                        top: get_win2_output_2.top,
+                        width: get_win2_output_2.width,
+                        height: get_win2_output_2.height
+
+                    })
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/get_win1_output_1",
+                processData: true,
+                dataType: "text",
+                cache: false,
+                success: function (data) {
+                    var get_win1_output_1 = jQuery.parseJSON(data);
+                    $("div[id='draggable2']").css({
+                        left: get_win1_output_1.left,
+                        top: get_win1_output_1.top,
+                        width: get_win1_output_1.width,
+                        height: get_win1_output_1.height
+                    })
+                }
+            });
+        }, 1000);
+
+        window.onload = function () {
+
+            $.ajax({
+                type: "GET",
+                url: "/get_win_output",
+                processData: true,
+                dataType: "text",
+                cache: false,
+                success: function (data) {
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/get_win1_output_1",
+                processData: true,
+                dataType: "text",
+                cache: false,
+                success: function (data) {
+                    var get_win1_output_1 = jQuery.parseJSON(data);
+                    $("div[id='draggable2']").css({
+                        left: get_win1_output_1.left,
+                        top: get_win1_output_1.top,
+                        width: get_win1_output_1.width,
+                        height: get_win1_output_1.height
+                    })
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/get_win2_output_2",
+                processData: true,
+                dataType: "text",
+                cache: false,
+                success: function (data) {
+                    var get_win2_output_2 = jQuery.parseJSON(data);
+                    $("div[id='draggable3']").css({
+                        left: get_win2_output_2.left,
+                        top: get_win2_output_2.top,
+                        width: get_win2_output_2.width,
+                        height: get_win2_output_2.height
+
+                    })
+                }
+            });
+        };
+
+    </script>
+    <!----->
+</head>
+<body>
+<div id="wrapper">
+    <!----->
+    <nav class="navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+            <h1><a class="navbar-brand" href="index.html">RPi</a></h1>
+        </div>
+        <div class=" border-bottom">
+            <div class="full-left">
+                <section class="full-top">
+                    <button id="toggle"><i class="fa fa-arrows-alt"></i></button>
+                </section>
+                <div class="clearfix"></div>
+            </div>
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="drop-men">
+                <ul class=" nav_1">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown"><span class="name-caret">System<i
+                                class="caret"></i></span><img width="60" height="60"
+                                                              src="static/images/Raspi-PGB001.png"></a>
+                        <ul class="dropdown-menu " role="menu">
+                            <li><a href="system.html"><i class="fa fa-user"></i>System Info</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+            <div class="clearfix">
+            </div>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="index.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-video-camera nav_icon "></i><span
+                                    class="nav-label">Record</span> </a>
+                        </li>
+                        <li>
+                            <a href="preview.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-video-camera nav_icon "></i><span
+                                    class="nav-label">Preview</span> </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-cog nav_icon"></i> <span
+                                    class="nav-label">Settings</span> </a>
+                        </li>
+                        <li>
+                            <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-bars nav_icon"></i> <span
+                                    class="nav-label">V100</span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="spi_tty.html" class="hvr-bounce-to-right"><i
+                                        class="fa fa-terminal nav_icon"></i> <span
+                                        class="nav-label">OSD/TTY</span> </a>
+                                </li>
+                                <li><a href="v100.html" class="hvr-bounce-to-right"><i
+                                        class="fa fa-desktop nav_icon"></i> <span
+                                        class="nav-label">V100 - Information</span> </a>
+                                </li>
+                                <li><a href="hdmi_channel.html" class="hvr-bounce-to-right"><i
+                                        class="fa fa-desktop nav_icon"></i> <span
+                                        class="nav-label">HDMI - Settings</span> </a>
+                                </li>
+                                <li><a href="dragndrop.html" class="hvr-bounce-to-right"><i
+                                        class="fa fa-dribbble nav_icon"></i> <span
+                                        class="nav-label">DragNDrop</span> </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- <li>
+                             <a href="faq.html" class=" hvr-bounce-to-right"><i
+                                     class="fa fa-question-circle nav_icon"></i> <span
+                                     class="nav-label">FAQ</span> </a>
+                         </li>-->
+                        <li>
+                            <a href="logout" class=" hvr-bounce-to-right"><i class="fa fa-sign-out nav_icon"></i><span
+                                    class="nav-label">Logout</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="content-main">
+            <!--banner-->
+            <div class="banner">
+                <h2>
+                    <a href="index.html">Home</a>
+                    <i class="fa fa-angle-right"></i>
+                    <span>Drag & Drop</span>
+                </h2>
+            </div>
+            <div class="content-top">
+                <div class="col-md-dd col-md-4">
+                    <div class="content-top-1" style="height: 250px;;">
+                        <div class="col-md-6 top-content">
+                            <h5>Channels</h5>
+                        </div>
+                        <br>
+                        <div class="col-md-6 top-content1">
+                            <div>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="content-top-1">
+                        <div class="col-md-6 top-content">
+                            <h5>Settings from Memory</h5>
+                        </div>
+                        <br>
+                        <div class="col-md-6 top-content1">
+                            <div>
+                                <form data-script="lmem_settings" style="border: none; border-shadow: none;"
+                                      class="post">
+                                    <div class="form-group">
+                                        <div class="col-sm-8-2">
+                                            <select name="_number" id="_number" class="form-control1"> 
+                                                <option id="_number" name="_number" value="0">Load setting - 0</option>
+                                                <option id="_number" name="_number" value="1">Load setting - 1</option>
+                                                <option id="_number" name="_number" value="2">Load setting - 2</option>
+                                                <option id="_number" name="_number" value="3">Load setting - 3</option>
+                                                <option id="_number" name="_number" value="4">Load setting - 4</option>
+                                                <option id="_number" name="_number" value="5">Load setting - 5</option>
+                                                <option id="_number" name="_number" value="6">Load setting - 6</option>
+                                                <option id="_number" name="_number" value="7">Load setting - 7</option>
+                                                <option id="_number" name="_number" value="8">Load setting - 8</option>
+                                                <option id="_number" name="_number" value="9">Load setting - 9</option>
+                                                <option id="_number" name="_number" value="10">Load setting - 10</option>
+                                                <option id="_number" name="_number" value="11">Load setting - 11</option>
+                                                <option id="_number" name="_number" value="12">Load setting - 12</option>
+                                                <option id="_number" name="_number" value="13">Load setting - 13</option>
+                                                <option id="_number" name="_number" value="14">Load setting - 14</option>
+                                                <option id="_number" name="_number" value="15">Load setting - 15</option>
+                                                <option id="_number" name="_number" value="16">Load setting - 16</option>
+                                                <option id="_number" name="_number" value="17">Load setting - 17</option>
+                                                <option id="_number" name="_number" value="18">Load setting - 18</option>
+                                                <option id="_number" name="_number" value="19">Load setting - 19</option>
+                                                <option id="_number" name="_number" value="20">Load setting - 20</option>
+                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div class="row">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                <button class="btn-primary btn">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="content-top-1">
+                        <div class="col-md-6 top-content">
+                            <h5>Configuration File</h5>
+                        </div>
+                        <br>
+                        <div class="col-md-6 top-content1">
+                            <div>
+                                <div> 
+                                    <form style="border: none; box-shadow: none;" data-script="set_conf"
+                                          class="post"> 
+                                        <div> 
+                                            <button style="margin-left: 10px; margin-top: 10px; float: left"
+                                                    id="set_conf" name="set_conf" type="button"
+                                                    class="btn btn-lg btn-default">Set Configuration
+                                            </button>
+                                             
+                                        </div>
+                                    </form>
+                                    <form style="border: none; box-shadow: none;" data-script="new_conf" class="post"> 
+                                        <div> 
+                                            <button style="margin-left: 10px; margin-top: 10px; float: left"
+                                                    id="new_conf" name="new_conf" type="button"
+                                                    class="btn btn-lg btn-default">Write Configuration
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-md-dd-2 content-top-1 col-md-8">
+                    <!--JSON-->
+                    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='graph.css') }}">
+                    <!--//graph-->
+                    <div class="graph-container">
+                        <div class="col-md-6 top-content">
+                            <h5>Drag & Drop</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6 top-content" style=" left: 100px;">
+                        <h5 style="margin-bottom: 10px;"></h5>
+                        <div id="snaptarget" class="ui-widget-header"></div>
+                        <br style="clear:both">
+                        <div id="draggable2" class="draggable2 ui-widget-content">
+                            <p>CHANNEL 1</p>
+                        </div>
+                        <div id="draggable3" class="draggable3 ui-widget-content">
+                            <p>CHANNEL 2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="copy">
+            <p> &copy; 2016 Raspberry Pi Web API. All Rights Reserved | Ilja Grebel</p>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+</div><!---->
+<!--scrolling js-->
+<script src="static/js/jquery.nicescroll.js"></script>
+<script src="static/js/scripts.js"></script>
+<!--//scrolling js-->
+<script src="static/js/bootstrap.min.js"></script>
+<script src="static/js/spi_script.js"></script>
+</body>
+</html>

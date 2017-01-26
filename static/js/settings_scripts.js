@@ -85,8 +85,6 @@ window.onload = function () {
             if ((enc_config.image_format) == '.bgra') {
                 $("option[id='_image_fmt_9']").prop("selected", true)
             }
-
-
             if ((enc_config.camera_effect) == 'none') {
                 $("option[id='_camera_effect_1']").prop("selected", true)
             }

@@ -76,33 +76,48 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-
-                    <li>
-                        <a href="index.html" class=" hvr-bounce-to-right"><i
-                                class="fa fa-video-camera nav_icon "></i><span
-                                class="nav-label">Record</span> </a>
-                    </li>
-                    <li>
-                        <a href="preview.html" class=" hvr-bounce-to-right"><i
-                                class="fa fa-video-camera nav_icon "></i><span
-                                class="nav-label">Preview</span> </a>
-                    </li>
-                    <li>
-                        <a href="settings.html" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span
-                                class="nav-label">Settings</span> </a>
-                    </li>
-                    <li>
-                        <a href="upload.html" class="hvr-bounce-to-right"><i class="fa fa-upload nav_icon"></i> <span
-                                class="nav-label">Upload</span> </a>
-                    </li>
-                    <li>
-                        <a href="faq.html" class=" hvr-bounce-to-right"><i class="fa fa-question-circle nav_icon"></i> <span
-                                class="nav-label">FAQ</span> </a>
-                    </li>
-                    <li>
-                        <a href="logout" class=" hvr-bounce-to-right"><i class="fa fa-sign-out nav_icon"></i><span class="nav-label">Logout</span></a>
-                    </li>
-                </ul>
+                        <li>
+                            <a href="index.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-video-camera nav_icon "></i><span
+                                    class="nav-label">Record</span> </a>
+                        </li>
+                        <li>
+                            <a href="preview.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-video-camera nav_icon "></i><span
+                                    class="nav-label">Preview</span> </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-cog nav_icon"></i> <span
+                                    class="nav-label">Settings</span> </a>
+                        </li>
+                        <li>
+                        <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-bars nav_icon"></i> <span class="nav-label">V100</span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="spi_tty.html" class="hvr-bounce-to-right"><i class="fa fa-terminal nav_icon"></i> <span
+                                    class="nav-label">OSD/TTY</span> </a>
+                            </li>
+                            <li><a href="v100.html" class="hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span
+                                    class="nav-label">V100 - Information</span> </a>
+                            </li>
+                            <li><a href="hdmi_channel.html" class="hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span
+                                    class="nav-label">HDMI - Settings</span> </a>
+                            </li>
+                             <li><a href="dragndrop.html" class="hvr-bounce-to-right"><i class="fa fa-dribbble nav_icon"></i> <span
+                                    class="nav-label">DragNDrop</span> </a>
+                            </li>
+                        </ul>
+                        </li>
+                       <!-- <li>
+                            <a href="faq.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-question-circle nav_icon"></i> <span
+                                    class="nav-label">FAQ</span> </a>
+                        </li>-->
+                        <li>
+                            <a href="logout" class=" hvr-bounce-to-right"><i class="fa fa-sign-out nav_icon"></i><span
+                                    class="nav-label">Logout</span></a>
+                        </li>
+                    </ul>
             </div>
         </div>
     </div>
@@ -178,9 +193,7 @@
         </div>
     </div>
     <div class="col-md-8 content-top-1">
-        <!---start-chart---->
-        <!----->
-            <!--graph-->
+            <!--JSON-->
             <link rel=stylesheet type=text/css href="{{ url_for('static', filename='graph.css') }}">
             <!--//graph-->
             <div class="graph-container">
@@ -189,7 +202,7 @@
                 </div>
             </div>
         <div class="col-md-6 top-content">
-            <h5>Response</h5>
+            <h5 style="margin-bottom: 10px;">Response</h5>
             <pre class="response-field" style="border: 1px solid #555; padding: 5px; overflow: auto; min-height: 274px; "></pre>
         </div>
     </div>

@@ -42,9 +42,6 @@
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
         </button>
         <h1><a class="navbar-brand" href="index.html">RPi</a></h1>
     </div>
@@ -65,11 +62,6 @@
                             class="caret"></i></span><img width="60" height="60"  src="static/images/Raspi-PGB001.png"></a>
                     <ul class="dropdown-menu " role="menu">
                         <li><a href="system.html"><i class="fa fa-user"></i>System Info</a></li>
-                        <!--
-                        <li><a href="inbox.html"><i class="fa fa-envelope"></i>Inbox</a></li>
-                        <li><a href="calendar.html"><i class="fa fa-calendar"></i>Calender</a></li>
-                        <li><a href="inbox.html"><i class="fa fa-clipboard"></i>Tasks</a></li>
-                        -->
                     </ul>
                 </li>
             </ul>
@@ -80,40 +72,54 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-
-                    <li>
-                        <a href="index.html" class=" hvr-bounce-to-right"><i
-                                class="fa fa-video-camera nav_icon "></i><span
-                                class="nav-label">Record</span> </a>
-                    </li>
-                    <li>
-                        <a href="preview.html" class=" hvr-bounce-to-right"><i
-                                class="fa fa-video-camera nav_icon "></i><span
-                                class="nav-label">Preview</span> </a>
-                    </li>
-                    <li>
-                        <a href="settings.html" class=" hvr-bounce-to-right"><i class="fa fa-cog nav_icon"></i> <span
-                                class="nav-label">Settings</span> </a>
-                    </li>
-                    <li>
-                        <a href="upload.html" class="hvr-bounce-to-right"><i class="fa fa-upload nav_icon"></i> <span
-                                class="nav-label">Upload</span> </a>
-                    </li>
-                    <li>
-                        <a href="faq.html" class=" hvr-bounce-to-right"><i class="fa fa-question-circle nav_icon"></i> <span
-                                class="nav-label">FAQ</span> </a>
-                    </li>
-                    <li>
-                        <a href="logout" class=" hvr-bounce-to-right"><i class="fa fa-sign-out nav_icon"></i><span class="nav-label">Logout</span></a>
-                    </li>
-                </ul>
+                        <li>
+                            <a href="index.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-video-camera nav_icon "></i><span
+                                    class="nav-label">Record</span> </a>
+                        </li>
+                        <li>
+                            <a href="preview.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-video-camera nav_icon "></i><span
+                                    class="nav-label">Preview</span> </a>
+                        </li>
+                        <li>
+                            <a href="settings.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-cog nav_icon"></i> <span
+                                    class="nav-label">Settings</span> </a>
+                        </li>
+                        <li>
+                        <a href="#" class=" hvr-bounce-to-right"><i class="fa fa-bars nav_icon"></i> <span class="nav-label">V100</span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="spi_tty.html" class="hvr-bounce-to-right"><i class="fa fa-terminal nav_icon"></i> <span
+                                    class="nav-label">OSD/TTY</span> </a>
+                            </li>
+                            <li><a href="v100.html" class="hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span
+                                    class="nav-label">V100 - Information</span> </a>
+                            </li>
+                            <li><a href="hdmi_channel.html" class="hvr-bounce-to-right"><i class="fa fa-desktop nav_icon"></i> <span
+                                    class="nav-label">HDMI - Settings</span> </a>
+                            </li>
+                             <li><a href="dragndrop.html" class="hvr-bounce-to-right"><i class="fa fa-dribbble nav_icon"></i> <span
+                                    class="nav-label">DragNDrop</span> </a>
+                            </li>
+                        </ul>
+                        </li>
+                       <!-- <li>
+                            <a href="faq.html" class=" hvr-bounce-to-right"><i
+                                    class="fa fa-question-circle nav_icon"></i> <span
+                                    class="nav-label">FAQ</span> </a>
+                        </li>-->
+                        <li>
+                            <a href="logout" class=" hvr-bounce-to-right"><i class="fa fa-sign-out nav_icon"></i><span
+                                    class="nav-label">Logout</span></a>
+                        </li>
+                    </ul>
             </div>
         </div>
     </div>
 </nav>
 <div id="page-wrapper" class="gray-bg dashbard-1">
 <div class="content-main">
-
 <!--banner-->
 <div class="banner">
     <h2>
@@ -171,15 +177,15 @@
                 <label for="selector3" class="col-sm-2 control-label">Camera Effect</label>
                 <div class="col-sm-8">
                     <select name="_camera_effect" id="selector3" class="form-control1">
-                        <option id="_camera_effect_1" name="_camera_effect" value="none">none</option>
-                        <option id="_camera_effect_2" name="_camera_effect" value="negative">negative</option>
-                        <option id="_camera_effect_3" name="_camera_effect" value="solarize">solarize</option>
-                        <option id="_camera_effect_4" name="_camera_effect" value="sketch">sketch</option>
-                        <option id="_camera_effect_5" name="_camera_effect" value="denoise">denoise</option>
-                        <option id="_camera_effect_6" name="_camera_effect" value="emboss">emboss</option>
-                        <option id="_camera_effect_7" name="_camera_effect" value="oilpaint">oilpaint</option>
-                        <option id="_camera_effect_8" name="_camera_effect" value="hatch">hatch</option>
-                        <option id="_camera_effect_9" name="_camera_effect" value="gpen">gpen</option>
+                        <option id="_camera_effect_1"  name="_camera_effect" value="none">none</option>
+                        <option id="_camera_effect_2"  name="_camera_effect" value="negative">negative</option>
+                        <option id="_camera_effect_3"  name="_camera_effect" value="solarize">solarize</option>
+                        <option id="_camera_effect_4"  name="_camera_effect" value="sketch">sketch</option>
+                        <option id="_camera_effect_5"  name="_camera_effect" value="denoise">denoise</option>
+                        <option id="_camera_effect_6"  name="_camera_effect" value="emboss">emboss</option>
+                        <option id="_camera_effect_7"  name="_camera_effect" value="oilpaint">oilpaint</option>
+                        <option id="_camera_effect_8"  name="_camera_effect" value="hatch">hatch</option>
+                        <option id="_camera_effect_9"  name="_camera_effect" value="gpen">gpen</option>
                         <option id="_camera_effect_10" name="_camera_effect" value="pastel">pastel</option>
                         <option id="_camera_effect_11" name="_camera_effect" value="watercolor">watercolor</option>
                         <option id="_camera_effect_12" name="_camera_effect" value="film">film</option>
@@ -193,6 +199,7 @@
                         <option id="_camera_effect_20" name="_camera_effect" value="cartoon">cartoon</option>
                         <option id="_camera_effect_21" name="_camera_effect" value="deinterlace1">deinterlace1</option>
                         <option id="_camera_effect_22" name="_camera_effect" value="deinterlace2">deinterlace2</option>
+
                     </select>
                 </div>
             </div>
@@ -244,18 +251,18 @@
                         <label for="selector4" class="col-sm-2 control-label">Month</label>
                         <div class="col-sm-8">
                             <select name="_month" id="selector4" class="form-control1">
-                                <option id="_Jan" name="_month" value="Jan">January</option>
-                                <option id="_Feb" name="_month" value="Feb">February</option>
-                                <option id="_Mar" name="_month" value="Mar">March</option>
-                                <option id="_Apr" name="_month" value="Apr">April</option>
-                                <option id="_May" name="_month" value="May">May</option>
-                                <option id="_Jun" name="_month" value="Jun">June</option>
-                                <option id="_Jul" name="_month" value="Jul">July</option>
-                                <option id="_Aug" name="_month" value="Aug">August</option>
+                                <option id="_Jan"  name="_month" value="Jan">January</option>
+                                <option id="_Feb"  name="_month" value="Feb">February</option>
+                                <option id="_Mar"  name="_month" value="Mar">March</option>
+                                <option id="_Apr"  name="_month" value="Apr">April</option>
+                                <option id="_May"  name="_month" value="May">May</option>
+                                <option id="_Jun"  name="_month" value="Jun">June</option>
+                                <option id="_Jul"  name="_month" value="Jul">July</option>
+                                <option id="_Aug"  name="_month" value="Aug">August</option>
                                 <option id="_Sept" name="_month" value="Sept">September</option>
-                                <option id="_Oct" name="_month" value="Oct">October</option>
-                                <option id="_Nov" name="_month" value="Nov">November</option>
-                                <option id="_Dec" name="_month" value="Dec">December</option>
+                                <option id="_Oct"  name="_month" value="Oct">October</option>
+                                <option id="_Nov"  name="_month" value="Nov">November</option>
+                                <option id="_Dec"  name="_month" value="Dec">December</option>
                             </select>
                         </div>
                     </div>
